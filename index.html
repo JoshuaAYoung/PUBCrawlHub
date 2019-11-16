@@ -2,16 +2,82 @@
 <html lang="en">
 
 <head>
+    <title>PUBCrawlHUB</title>
+    <meta name="description"
+        content="A free app to find bars and breweries and map out your pub crawl. Send your route to your friends so they can join in. Set a timer so everyone knows where you are along your route.">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="normalize.css">
     <link rel="stylesheet" href="./main.css">
-    <title>PUBCrawlHub</title>
+    <link rel="icon" type="image/png" href="./images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./images/favicon-16x16.png" sizes="16x16" />
 </head>
 
 <body>
-    <p>hello world</p>
+    <header>
+        <div class="logo">
+            <a href="index.html"><img src="./images/logo.jpg" alt="PUBCrawlHUB logo" class="mainLogo"></a>
+        </div>
+    </header>
+    <main>
+        <form class="searchForm">
+            <fieldset>
+                <legend class="formLegend">PUBcrawlHUB Search</legend>
+
+                <label class="searchLocation" for="mainSearch">Location:</label>
+                <input type="text" id="mainSearch" name="mainSearch">
+
+                <label class="searchRadius" for="proximitySearch">Location Search in miles:</label>
+                <input type="text" id="proximitySearch" name="proximitySearch">
+
+                <label class="searchLimit" for="resultsNumber">Number of results:</label>
+                <input type="number" id="resultsNumber" name="resultsNumber">
+
+                <label class="sortPrice">Sort by price?
+                    <input type="checkbox" id="priceSort" name="priceSort">
+                </label>
+
+                <label class="selectPrice">$
+                    <input type="radio" id="priceSelect" name="oneDollar">
+                </label>
+                <label class="selectPrice">$$
+                    <input type="radio" id="priceSelect" name="oneDollar">
+                </label>
+                <label class="selectPrice">$$$
+                    <input type="radio" id="priceSelect" name="oneDollar">
+                </label>
+                <label class="selectPrice">$$$$
+                    <input type="radio" id="priceSelect" name="oneDollar">
+                </label>
+
+                <label class="openNow">Open now?
+                    <input type="checkbox" id="nowOpen" name="nowOpen">
+                </label>
+
+
+
+                <button type="submit" id="submitButton">SUBMIT</button>
+            </fieldset>
+        </form>
+
+
+        as a user I want to find breweries that match a custom criteria (i.e. patio, dogs, etc) : Low Priority input:
+        text
+        Results
+        as a user I want to see a map of the results from my search : High Priority
+        as a user I want to receive directions from one bar to another starting with the closest bar : High Priority
+        as a user I want to receive directions from one bar to another with a custom sort : Medium Priority
+        as a user I want to receive results sorted by the businesses rating : Low Priority
+        as a user I want to receive results sorted by their proximity to my current location : High Priority
+        as a user I want to be able to copy a link to share with friends that will provide them with the same search
+        results : Low Priority
+        as a user I want to be able to remove 1 or more result from the results list : Low Priority
+        as a user I want to have a timer that alerts me when it's time to move on to the next bar : Low Priority
+        as a user I want to share the timer with friends : Low Priority
+    </main>
     <script src="./app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </body>
 
 </html>
