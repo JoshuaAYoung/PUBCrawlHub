@@ -62,6 +62,15 @@ function watchModifiers() {
 }
 
 // VIEW RENDERS
+function buildView(state) {
+  if(state === 'MAIN') {
+    return `this html`
+  } else if (state === 'RESULTS') {
+    return `this html`
+  } else if (state === 'BAD RESULT') {
+    return `this html`
+  }
+}
 function renderResults() {
   $('results').html('');
   $('results').html(view);
