@@ -8,7 +8,7 @@ const STORE = {
 
 
 // URLs
-const MAPBOX_API_URL ='';
+
 // KEYS
 const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
 // HEADERS
@@ -21,6 +21,7 @@ const mapboxOptions = {
 };
 
 // GET DATA
+<<<<<<< HEAD
 
 function formatQueryParams(parameters) {
   //takes parameter keys and makes an array out of them
@@ -75,25 +76,36 @@ function getBarsFromYelp(locationQ, radiusQ, limitQ, priceQ, openQ, termQ) {
 
 function getMapData() {
   fetch()
-  .then(res => res.json())
-  .then(resJson => 
-    renderResults(resJson))
-  .catch(e => console.log(e));
+    .then(res => res.json())
+    .then(resJson =>
+      renderResults(resJson))
+    .catch(e => console.log(e));
+}
+
+function buildMap(startBar) {
+  mapboxgl.accessToken = MAPBOX_API_KEY;
+  let map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v9',
+  center: startBar,
+  zoom: 13,
+});
 }
 
 function getDirections() {
   fetch()
-  .then(res => res.json())
-  .then(resJson => 
-    renderResults(resJson))
-  .catch(e => console.log(e));
+    .then(res => res.json())
+    .then(resJson =>
+      renderResults(resJson))
+    .catch(e => console.log(e));
 }
 
 // EVENT LISTENERS
 function watchForm() {
   $('form').submit(e => {
     e.preventDefault();
-
+    getBarsFromYelp();
+    getMapData();
   })
 }
 
@@ -103,36 +115,59 @@ function watchModifiers() {
   })
 }
 
+function watchADVSearch() {
+  $('.searchForm').on('click', '#advSearchToggle', function(e) {
+    e.preventDefault();
+    $('.advSearchOptions').slideToggle('slow');
+  });
+}
+
 // VIEW HANDLERS
-function determineView(state) {
-  if(state === 'MAIN') {
+function determineView(state, res) {
+  if (state === 'MAIN') {
     return buildMainView();
   } else if (state === 'RESULTS') {
-    return buildResultsView();
+    return buildResultsView(res);
   } else if (state === 'BAD RESULT') {
-    return buildBadResults();
+    return buildBadResults(res);
   }
 }
 
 function buildMainView() {
-  $('results').html('');
-  const view = ``;
-  return view;
+  $('.results').html('');
+  $('.map').html('');
 }
 
 function buildResultsView(res) {
-  $('results').html('');
-  let view = ``;
-  return view;
+  const bars = res;
+  $('.results').html('');
+  $('.map').html('');
+  let resultView = [];
+  for(let i = 0; i < bars.length; i++) {
+    resultView.push(`<div class="barCard">
+      <h3 class="barTitle barLink">
+        <a href="${bars[i].website_url}">${bars[i].name}</a>
+      </h3>
+      <p>${bars[i].street}</p>
+      <p>${bars[i].city}, ${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
+      <p class="barPhone">${bars[i].phone}</p>
+    `);
+  }
+  resultView.join('');
+  $('.results').html(resultView);
+  $('.map').html(buildMap());
 }
 
 function buildBadResults(res) {
-  $('results').html('');
-  let view = ``;
-  return view;
+  $('.results').html('');
+  $('.map').html('');
+  let view = `<h2>We've experienced an error</h2>
+  <p>${res.message}</p>`;
+  $('.results').html(view);
 }
 
 // PAGE READY LISTENER
 $(function() {
   watchForm();
+  watchADVSearch();
 });
