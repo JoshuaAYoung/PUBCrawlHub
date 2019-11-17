@@ -78,15 +78,20 @@ function determineView(state) {
 
 function buildMainView() {
   $('results').html('');
-  const 
+  const view = ``;
+  return view;
 }
 
-function buildResultsView() {
+function buildResultsView(res) {
   $('results').html('');
+  let view = ``;
+  return view;
 }
 
-function buildBadResults() {
+function buildBadResults(res) {
   $('results').html('');
+  let view = ``;
+  return view;
 }
 
 // PAGE READY LISTENER
