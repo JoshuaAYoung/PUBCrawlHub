@@ -1,4 +1,8 @@
 'use strict';
+// STORE
+const STORE = {
+  state: 'MAIN',
+}
 
 // URLs
 const YELP_API_URL = 'https://api.yelp.com/v3/businesses/search';
@@ -61,19 +65,28 @@ function watchModifiers() {
   })
 }
 
-// VIEW RENDERS
-function buildView(state) {
+// VIEW HANDLERS
+function determineView(state) {
   if(state === 'MAIN') {
-    return `this html`
+    return buildMainView();
   } else if (state === 'RESULTS') {
-    return `this html`
+    return buildResultsView();
   } else if (state === 'BAD RESULT') {
-    return `this html`
+    return buildBadResults();
   }
 }
-function renderResults() {
+
+function buildMainView() {
   $('results').html('');
-  $('results').html(view);
+  const 
+}
+
+function buildResultsView() {
+  $('results').html('');
+}
+
+function buildBadResults() {
+  $('results').html('');
 }
 
 // PAGE READY LISTENER
