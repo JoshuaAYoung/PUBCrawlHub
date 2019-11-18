@@ -5,15 +5,10 @@ const STORE = {
   stateNumber: 0
 }
 
-
-
-
-
-
 // URLs
 const MAPBOX_URL = 'https://api.mapbox.com/';
 // KEYS
-const MAPBOX_API_KEY = 'eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
+const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
 // HEADERS
 const mapboxOptions = {
   header: new Headers(
@@ -115,13 +110,23 @@ function buildMap(startBar) {
 });
 }
 
-function getDirections() {
-  const url = `https://api.mapbox.com/directions/v5/mapbox/walking/-73.989%2C40.733%3B-74%2C40.733.json?access_token=pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw`
+function getDirections(latLon1, latLon2) {
+  let coordinate1 = formatCoordinates(latLon1);
+  let coordinate2 = formatCoordinates(latLon2);
+  const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordinate1}%3B${coordinate2}.json?access_token=${MAPBOX_API_KEY}`
   fetch(url)
     .then(res => res.json())
     .then(resJson =>
       console.log(resJson))
     .catch(e => console.log(e));
+}
+
+// HELPER FUNCTION
+function formatCoordinates(coordinatePair) {
+  // Takes object of lat and lon { lat: lon }
+  const lat = Object.keys(coordinatePair);
+  const lon = coordinatePair[lat];
+  return `${lat}%2C${lon}`
 }
 
 // EVENT LISTENERS
@@ -143,7 +148,10 @@ function watchADVSearch() {
   $('.searchForm').on('click', '#advSearchToggle', function(e) {
     e.preventDefault();
     $('.advSearchOptions').slideToggle('slow');
-    getDirections();
+    let coord1 = {'-73.989': 40.733};
+    let coord2 = {'-74': 40.733};
+    getDirections(coord1, coord2);
+    // -73.989%2C40.733%3B-74%2C40.733
   });
 }
 
@@ -173,8 +181,8 @@ function buildResultsView(res) {
       <h3 class="barTitle barLink">
         <a href="${bars[i].website_url}">${bars[i].name}</a>
       </h3>
-      <p>${bars[i].street}</p>
-      <p>${bars[i].city}, ${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
+      <p class="barAddress">${bars[i].street}</p>
+      <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
     `);
   }
