@@ -9,22 +9,6 @@ const STORE = {
 const MAPBOX_URL = 'https://api.mapbox.com/';
 // KEYS
 const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
-// HEADERS
-const mapboxOptions = {
-  header: new Headers(
-    {
-      "id": "cijucimbe000brbkt48d0dhcx",
-      "usage": "pk",
-      "client": "api",
-      "default": false,
-      "note": "My website",
-      "scopes": ["styles:read", "fonts:read"],
-      "created": "2018-01-25T19:07:07.621Z",
-      "modified": "2018-01-26T00:39:57.941Z",
-      "token": MAPBOX_API_KEY,
-    }
-  )
-};
 
 // BEERMAPPING
 
@@ -108,8 +92,12 @@ function buildMap(startBar) {
   center: startBar,
   zoom: 13,
 });
+  map.addControl(new MapboxDirections({
+    accessToken: mapboxgl.accessToken
+  }), 'top-left');
 }
 
+/* DON'T NEED?
 function getDirections(latLon1, latLon2) {
   let coordinate1 = formatCoordinates(latLon1);
   let coordinate2 = formatCoordinates(latLon2);
@@ -119,7 +107,7 @@ function getDirections(latLon1, latLon2) {
     .then(resJson =>
       console.log(resJson))
     .catch(e => console.log(e));
-}
+} 
 
 // HELPER FUNCTION
 function formatCoordinates(coordinatePair) {
@@ -127,7 +115,7 @@ function formatCoordinates(coordinatePair) {
   const lat = Object.keys(coordinatePair);
   const lon = coordinatePair[lat];
   return `${lat}%2C${lon}`
-}
+}*/
 
 // EVENT LISTENERS
 function watchForm() {
@@ -148,11 +136,21 @@ function watchADVSearch() {
   $('.searchForm').on('click', '#advSearchToggle', function(e) {
     e.preventDefault();
     $('.advSearchOptions').slideToggle('slow');
-    let coord1 = {'-73.989': 40.733};
-    let coord2 = {'-74': 40.733};
-    getDirections(coord1, coord2);
+    // let coord1 = {'-73.989': 40.733};
+    // let coord2 = {'-74': 40.733};
+    // getDirections(coord1, coord2);
     // -73.989%2C40.733%3B-74%2C40.733
   });
+}
+
+function submitForDirections() {
+  $('.mapData').submit(function(e) {
+    e.preventDefault();
+  })
+  // get list of breweries
+  // .submit( call map.setOrigin(firstBrewery)
+  // , setWaypoint(...subsequentBreweries), 
+  // and setDestination(lastBrewery))
 }
 
 // VIEW HANDLERS
