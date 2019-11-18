@@ -2,7 +2,13 @@
 // STORE
 const STORE = {
   state: 'MAIN',
+  stateNumber: 0
 }
+
+
+
+
+
 
 // URLs
 const MAPBOX_URL = 'https://api.mapbox.com/';
@@ -25,9 +31,41 @@ const mapboxOptions = {
   )
 };
 
-// GET DATA
+// BEERMAPPING
 
-function formatQueryParams(parameters) {
+// function formatBMQuery(parameters) {
+
+//   //returns the array object as a single string with & in between each
+//     return queryItems.join('&');
+// }
+
+// function getBarsFromBM(locationQ, radiusQ, limitQ, priceQ, openQ, termQ) {
+//   const bMURL = 'http://beermapping.com/webservice/loccity/';
+//   const bMKey = "658bca16f97e42e28a59c3bdb54241f8";
+  
+//   //sets queryString variable as the full string of every parameter joined together
+//   const url = bMURL + bMKey + '/' + STORE[1].city + ',' + STORE[1].state; + "&s=json"
+
+//   console.log(url);
+
+//   fetch(url)
+//   .then(response => {
+//     if (response.ok) {
+//       STATE[0].stateNumber++;
+//       return response.json();
+//     }
+//     throw new Error(response.statusText)
+//   })
+//   // .then(responseJson => determineView(STORE.state, responseJson))
+//   .then(responseJson => console.log(responseJson))
+//   .catch(err => {
+//     determineView(STORE.state, err)
+//   })
+// }
+
+// OPEN BREWERY
+
+function formatQuery(parameters) {
   //takes parameter keys and makes an array out of them
   const queryItems = Object.keys(parameters)
   //loops through our array and creates a new array made up of strings (encoded for use in url) with the format "key=value"
@@ -36,32 +74,22 @@ function formatQueryParams(parameters) {
     return queryItems.join('&');
 }
 
-function getBarsFromYelp(locationQ, radiusQ, limitQ, priceQ, openQ, termQ) {
-  const yelpURL = 'https://api.yelp.com/v3/businesses/search';
-  const yelp_api_key = 'Bearer ZfWIRiwsSHvSYOQ3gxUAB6mY8RyQ1zKwv30vI274WbruCXISg8n5TN-NBFpVfqnDsM4_AWjmONrljsNLzTPuITMswrBWOwmL9H0NNrw71qpxPWfm2kFfniP3s23QXXYx';
+function getBarsFromOB(cityQ, stateQ, limitQ) {
+  const baseURL = 'https://api.openbrewerydb.org/breweries';
   const params = {
-    location: locationQ,
-    radius: radiusQ,
-    limit: limitQ,
-    sort_by: "distance",
-    categories: "bar, brewery, beer garden, pub",
-    price: priceQ,
-    open_now: openQ, 
-    term: termQ 
+    by_city: cityQ,
+    by_state: stateQ,
+    per_page: limitQ,
+    sort: "city"
   };
+
   //sets queryString variable as the full string of every parameter joined together
-  const queryString = formatQueryParams(params)
-  const url = yelpURL + '?' + queryString;
+  const queryString = formatQuery(params)
+  const url = baseURL + '?' + queryString;
 
   console.log(url);
 
-  const yelpOptions = {
-    headers: new Headers({
-      'Authorization': yelp_api_key
-    })
-  };
-
-  fetch(url, yelpOptions)
+  fetch(url)
   .then(response => {
     if (response.ok) {
       STORE.state = "RESULTS";
@@ -69,8 +97,8 @@ function getBarsFromYelp(locationQ, radiusQ, limitQ, priceQ, openQ, termQ) {
     }
     throw new Error(response.statusText)
   })
-  // .then(responseJson => determineView(STORE.state, responseJson))
   .then(responseJson => console.log(responseJson))
+  // .then(responseJson => determineView(STORE.state, responseJson))
   .catch(err => {
     STORE.state = "BAD RESULTS";
     determineView(STORE.state, err)
@@ -167,4 +195,4 @@ function buildBadResults(res) {
 $(function() {
   watchForm();
   watchADVSearch();
-});
+})
