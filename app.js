@@ -74,7 +74,7 @@ function formatQuery(parameters) {
     return queryItems.join('&');
 }
 
-function getBarsFromOB(cityQ, stateQ, limitQ) {
+function getBarsFromOB(cityQ, stateQ, limitQ=10) {
   const baseURL = 'https://api.openbrewerydb.org/breweries';
   const params = {
     by_city: cityQ,
