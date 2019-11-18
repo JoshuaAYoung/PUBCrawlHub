@@ -65,23 +65,7 @@ const STORE = {
 // URLs
 const MAPBOX_URL = 'https://api.mapbox.com/';
 // KEYS
-const MAPBOX_API_KEY = 'eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
-// HEADERS
-const mapboxOptions = {
-  header: new Headers(
-    {
-      "id": "cijucimbe000brbkt48d0dhcx",
-      "usage": "pk",
-      "client": "api",
-      "default": false,
-      "note": "My website",
-      "scopes": ["styles:read", "fonts:read"],
-      "created": "2018-01-25T19:07:07.621Z",
-      "modified": "2018-01-26T00:39:57.941Z",
-      "token": MAPBOX_API_KEY,
-    }
-  )
-};
+const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
 
 // OPEN BREWERY
 function convertAbbrev(input) {
@@ -134,24 +118,38 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
   })
 }
 
-// function buildMap(startBar) {
-//   mapboxgl.accessToken = MAPBOX_API_KEY;
-//   let map = new mapboxgl.Map({
-//   container: 'map',
-//   style: 'mapbox://styles/mapbox/streets-v9',
-//   center: startBar,
-//   zoom: 13,
-// });
-// }
+function buildMap(startBar) {
+  mapboxgl.accessToken = MAPBOX_API_KEY;
+  let map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/streets-v9',
+  center: startBar,
+  zoom: 13,
+});
+  map.addControl(new MapboxDirections({
+    accessToken: mapboxgl.accessToken
+  }), 'top-left');
+}
 
-// function getDirections() {
-//   const url = `https://api.mapbox.com/directions/v5/mapbox/walking/-73.989%2C40.733%3B-74%2C40.733.json?access_token=pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw`
-//   fetch(url)
-//     .then(res => res.json())
-//     .then(resJson =>
-//       console.log(resJson))
-//     .catch(e => console.log(e));
-// }
+/* DON'T NEED?
+function getDirections(latLon1, latLon2) {
+  let coordinate1 = formatCoordinates(latLon1);
+  let coordinate2 = formatCoordinates(latLon2);
+  const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordinate1}%3B${coordinate2}.json?access_token=${MAPBOX_API_KEY}`
+  fetch(url)
+    .then(res => res.json())
+    .then(resJson =>
+      console.log(resJson))
+    .catch(e => console.log(e));
+} 
+
+// HELPER FUNCTION
+function formatCoordinates(coordinatePair) {
+  // Takes object of lat and lon { lat: lon }
+  const lat = Object.keys(coordinatePair);
+  const lon = coordinatePair[lat];
+  return `${lat}%2C${lon}`
+}*/
 
 // EVENT LISTENERS
 function watchForm() {
@@ -177,8 +175,21 @@ function watchADVSearch() {
   $('.searchForm').on('click', '#advSearchToggle', function(e) {
     e.preventDefault();
     $('.advSearchOptions').slideToggle('slow');
-    getDirections();
+    // let coord1 = {'-73.989': 40.733};
+    // let coord2 = {'-74': 40.733};
+    // getDirections(coord1, coord2);
+    // -73.989%2C40.733%3B-74%2C40.733
   });
+}
+
+function submitForDirections() {
+  $('.mapData').submit(function(e) {
+    e.preventDefault();
+  })
+  // get list of breweries
+  // .submit( call map.setOrigin(firstBrewery)
+  // , setWaypoint(...subsequentBreweries), 
+  // and setDestination(lastBrewery))
 }
 
 // VIEW HANDLERS
@@ -207,8 +218,8 @@ function buildResultsView(res) {
       <h3 class="barTitle barLink">
         <a href="${bars[i].website_url}">${bars[i].name}</a>
       </h3>
-      <p>${bars[i].street}</p>
-      <p>${bars[i].city}, ${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
+      <p class="barAddress">${bars[i].street}</p>
+      <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
     `);
   }
