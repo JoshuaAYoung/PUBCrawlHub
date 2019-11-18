@@ -28,38 +28,35 @@
             <form class="searchForm">
                 <fieldset>
                     <legend class="formLegend">PUBcrawlHUB Search</legend>
-                    <label class="searchLocation" for="mainSearch">Location:</label>
-                    <input type="text" id="mainSearch" name="mainSearch">
-                    <label class="searchLimit" for="resultsNumber">Number of results:</label>
-                    <input type="number" id="resultsNumber" name="resultsNumber">
-
-                    <button name="advSearch" id="advSearchToggle">Advanced Search</button>
-
-                    <div class="advSearchOptions">
-                        <label class="advSearchOption searchRadius" for="proximitySearch">Location Search in
-                            miles:</label>
-                        <input class="advSearchOption" type="text" id="proximitySearch" name="proximitySearch">
-                        <label class="sortPrice advSearchOption">Sort by price?
-                            <input type="checkbox" id="priceSort" name="priceSort">
-                        </label>
-                        <label class="advSearchOption selectPrice">$
-                            <input type="radio" id="priceSelect1" name="oneDollar">
-                        </label>
-                        <label class="advSearchOption selectPrice">$$
-                            <input type="radio" id="priceSelect2" name="oneDollar">
-                        </label>
-                        <label class="advSearchOption selectPrice">$$$
-                            <input type="radio" id="priceSelect3" name="oneDollar">
-                        </label>
-                        <label class="advSearchOption selectPrice">$$$$
-                            <input type="radio" id="priceSelect4" name="oneDollar">
-                        </label>
-                        <label class="advSearchOption openNow">Open now?
-                            <input type="checkbox" id="nowOpen" name="nowOpen">
-                        </label>
+                    <div class="userInput">
+                        <label class="searchLocation" for="mainSearch">City:</label>
+                        <input type="text" id="mainSearch" name="mainSearch">
                     </div>
-
-                    <button type="submit" id="submitButton">SUBMIT</button>
+                    <div class="userInput">
+                        <button name="advSearch" id="advSearchToggle">Advanced Search</button>
+                    </div>
+                    <div class="advSearchOptions">
+                        <div class="userInput">
+                            <label for="stateSearch">State:</label>
+                            <input type="text" name="stateSearch" id="stateSearch">
+                        </div>
+                        <div class="userInput">
+                            <label for="zipSearch">Zipcode:</label>
+                            <input type="text" name="zipSearch" id="zipSearch">
+                        </div>
+                        <div class="userInput">
+                            <label class="searchLimit" for="resultsNumber">Number of results:</label>
+                            <input type="number" id="resultsNumber" name="resultsNumber">
+                        </div>
+                        <div class="userInput">
+                            <label class="advSearchOption searchRadius" for="proximitySearch">Radius in
+                                miles:</label>
+                            <input class="advSearchOption" type="text" id="proximitySearch" name="proximitySearch">
+                        </div>
+                    </div>
+                    <div class="userInput">
+                        <button type="submit" id="submitButton">SUBMIT</button>
+                    </div>
                 </fieldset>
             </form>
         </section>

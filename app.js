@@ -4,24 +4,28 @@ const STORE = {
   state: 'MAIN',
 }
 
-
-
-
 // URLs
-
+const MAPBOX_URL = 'https://api.mapbox.com/';
 // KEYS
-const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
+const MAPBOX_API_KEY = 'eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
 // HEADERS
 const mapboxOptions = {
   header: new Headers(
     {
-      'API-X-Key': MAPBOX_API_KEY,
+      "id": "cijucimbe000brbkt48d0dhcx",
+      "usage": "pk",
+      "client": "api",
+      "default": false,
+      "note": "My website",
+      "scopes": ["styles:read", "fonts:read"],
+      "created": "2018-01-25T19:07:07.621Z",
+      "modified": "2018-01-26T00:39:57.941Z",
+      "token": MAPBOX_API_KEY,
     }
   )
 };
 
 // GET DATA
-<<<<<<< HEAD
 
 function formatQueryParams(parameters) {
   //takes parameter keys and makes an array out of them
@@ -73,15 +77,6 @@ function getBarsFromYelp(locationQ, radiusQ, limitQ, priceQ, openQ, termQ) {
   })
 }
 
-
-function getMapData() {
-  fetch()
-    .then(res => res.json())
-    .then(resJson =>
-      renderResults(resJson))
-    .catch(e => console.log(e));
-}
-
 function buildMap(startBar) {
   mapboxgl.accessToken = MAPBOX_API_KEY;
   let map = new mapboxgl.Map({
@@ -93,10 +88,11 @@ function buildMap(startBar) {
 }
 
 function getDirections() {
-  fetch()
+  const url = `https://api.mapbox.com/directions/v5/mapbox/walking/-73.989%2C40.733%3B-74%2C40.733.json?access_token=pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw`
+  fetch(url)
     .then(res => res.json())
     .then(resJson =>
-      renderResults(resJson))
+      console.log(resJson))
     .catch(e => console.log(e));
 }
 
@@ -119,6 +115,7 @@ function watchADVSearch() {
   $('.searchForm').on('click', '#advSearchToggle', function(e) {
     e.preventDefault();
     $('.advSearchOptions').slideToggle('slow');
+    getDirections();
   });
 }
 
