@@ -63,10 +63,13 @@ const STORE = {
   }
 }
 
+
+
 // URLs
 const MAPBOX_URL = 'https://api.mapbox.com/';
 // KEYS
 const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
+mapboxgl.accessToken = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
 
 // OPEN BREWERY
 function convertAbbrev(input) {
@@ -122,16 +125,16 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
 
 function buildMap(startBar) {
   mapboxgl.accessToken = MAPBOX_API_KEY;
-  let map = new mapboxgl.Map({
-  container: 'map',
-  style: 'mapbox://styles/mapbox/streets-v11',
-  center: startBar,
-  zoom: 13,
-});
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: startBar,
+    zoom: 13,
+  });
   map.addControl(new MapboxDirections({
-    accessToken: mapboxgl.accessToken
+    accessToken: mapboxgl.accessToken,
+    profile: 'mapbox/walking',
   }), 'top-left');
-  return map;
 }
 
 // EVENT LISTENERS
@@ -160,19 +163,58 @@ function watchADVSearch() {
   });
 }
 
+function makeMarkersFromUserList(barNames) {
+  let mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
+    mapboxClient.geocoding.forwardGeocode({
+    query: barNames,
+    autocomplete: false,
+    limit: 1
+  })
+  .send()
+  .then(function (response) {
+    if (response && response.body && response.body.features && response.body.features.length) {
+    let feature = response.body.features[0];
+
+    let map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
+      center: feature.center,
+      zoom: 13
+    });
+    new mapboxgl.Marker()
+      .setLngLat(feature.center)
+      .addTo(map);
+    }
+  });
+}
+
 function submitForDirections() {
   $('.mapData').submit(function(e) {
     e.preventDefault();
     let mapCenter = [STORE.brewList[0].longitude, STORE.brewList[0].latitude]
     buildMap(mapCenter);
+    // AFTER ADDING POINTS THIS?
+    // map.on('click', function(e) {
+    //   let features = map.queryRenderedFeatures(e.point, {
+    //     layers: ['bars'] // replace this with the name of the layer
+    //   });
+    
+    //   if (!features.length) {
+    //     return;
+    //   }
+    
+    //   let feature = features[0];
+    
+    //   let popup = new mapboxgl.Popup({ offset: [0, -15] })
+    //     .setLngLat(feature.geometry.coordinates)
+    //     .setHTML('<h3>' + feature.properties.title + '</h3><p>' + feature.properties.description + '</p>')
+    //     .addTo(map);
+    // });
   })
-  // get list of breweries
-  // .submit( call map.setOrigin(firstBrewery)
-  // , setWaypoint(...subsequentBreweries), 
-  // and setDestination(lastBrewery))
 }
 
 //DRAG AND DROP
+/*
 var _el;
 
 function dragOver(e) {
@@ -194,7 +236,7 @@ function isBefore(el1, el2) {
       if (cur === el2)
         return true;
   return false;
-}
+}*/
 
 // VIEW HANDLERS
 function determineView(state, res) {
@@ -232,9 +274,8 @@ function buildResultsView(res) {
   resultView.join('');
   $('.results').html(resultView);
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
-  buildMap(mapCenter);
-  map.setOrigin(mapCenter);
-  // $('.map').html(buildMap(mapCenter).setOrigin(mapCenter));
+  // buildMap(mapCenter);
+  makeMarkersFromUserList(`${bars[0].street} ${bars[0].city}`);
 }
 
 function buildBadResults(res) {
