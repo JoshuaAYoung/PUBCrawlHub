@@ -110,8 +110,10 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
     throw new Error(response.statusText)
   })
   .then(responseJson => { 
+    STORE.brewList = responseJson
     determineView(STORE.state, responseJson);
-    STORE.brewList = responseJson})
+    console.log(responseJson);
+  })
   .catch(err => {
     STORE.state = "BAD RESULTS";
     determineView(STORE.state, err)
@@ -122,7 +124,7 @@ function buildMap(startBar) {
   mapboxgl.accessToken = MAPBOX_API_KEY;
   let map = new mapboxgl.Map({
   container: 'map',
-  style: 'mapbox://styles/mapbox/streets-v9',
+  style: 'mapbox://styles/mapbox/streets-v11',
   center: startBar,
   zoom: 13,
 });
@@ -130,26 +132,6 @@ function buildMap(startBar) {
     accessToken: mapboxgl.accessToken
   }), 'top-left');
 }
-
-/* DON'T NEED?
-function getDirections(latLon1, latLon2) {
-  let coordinate1 = formatCoordinates(latLon1);
-  let coordinate2 = formatCoordinates(latLon2);
-  const url = `https://api.mapbox.com/directions/v5/mapbox/walking/${coordinate1}%3B${coordinate2}.json?access_token=${MAPBOX_API_KEY}`
-  fetch(url)
-    .then(res => res.json())
-    .then(resJson =>
-      console.log(resJson))
-    .catch(e => console.log(e));
-} 
-
-// HELPER FUNCTION
-function formatCoordinates(coordinatePair) {
-  // Takes object of lat and lon { lat: lon }
-  const lat = Object.keys(coordinatePair);
-  const lon = coordinatePair[lat];
-  return `${lat}%2C${lon}`
-}*/
 
 // EVENT LISTENERS
 function watchForm() {
@@ -161,7 +143,6 @@ function watchForm() {
     let limitInput = $(this).find('input[name="resultsNumber"]').val();
     let radiusInput = $(this).find('input[name="proximitySearch"]').val();
     getBarsFromOB(cityInput, stateInput, limitInput);
-    // getMapData();
   })
 }
 
@@ -175,10 +156,6 @@ function watchADVSearch() {
   $('.searchForm').on('click', '#advSearchToggle', function(e) {
     e.preventDefault();
     $('.advSearchOptions').slideToggle('slow');
-    // let coord1 = {'-73.989': 40.733};
-    // let coord2 = {'-74': 40.733};
-    // getDirections(coord1, coord2);
-    // -73.989%2C40.733%3B-74%2C40.733
   });
 }
 
@@ -197,6 +174,7 @@ function determineView(state, res) {
   if (state === 'MAIN') {
     return buildMainView();
   } else if (state === 'RESULTS') {
+    STORE.brewList = res;
     return buildResultsView(res);
   } else if (state === 'BAD RESULT') {
     return buildBadResults(res);
@@ -221,11 +199,13 @@ function buildResultsView(res) {
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
+    </div>
     `);
   }
   resultView.join('');
   $('.results').html(resultView);
-  $('.map').html(buildMap());
+  let mapCenter = [STORE.brewList[0].longitude, STORE.brewList[0].latitude];
+  $('.map').html(buildMap(mapCenter));
 }
 
 function buildBadResults(res) {
