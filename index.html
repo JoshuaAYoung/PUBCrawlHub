@@ -61,14 +61,19 @@
             </form>
         </div>
         <section class="results">
-            <ul class="results list">
-            </ul>
+            <form class="resultsForm">
+                <fieldset>
+                <ul class="resultsList">
+                </ul>
+                <button type="submit" id="listSubmit">SUBMIT</button>
+                </fieldset>
+            </form>
         </section>
         <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
         <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css" type="text/css" />
         <section class="mapData">
-            <div id="map" style="width: 600px; height: 600px;">
+                <div id="map" style="width: 600px; height: 600px;">
 
             </div>
         </section>
@@ -84,17 +89,3 @@
 </body>
 
 </html>
-
-<!-- USER STORIES
-as a user I want to find breweries that match a custom criteria (i.e. patio, dogs, etc) : Low Priority input: text
-Results
-as a user I want to see a map of the results from my search : High Priority
-as a user I want to receive directions from one bar to another starting with the closest bar : High Priority
-as a user I want to receive directions from one bar to another with a custom sort : Medium Priority
-as a user I want to receive results sorted by the businesses rating : Low Priority
-as a user I want to receive results sorted by their proximity to my current location : High Priority
-as a user I want to be able to copy a link to share with friends that will provide them with the same search
-results : Low Priority
-as a user I want to be able to remove 1 or more result from the results list : Low Priority
-as a user I want to have a timer that alerts me when it's time to move on to the next bar : Low Priority
-as a user I want to share the timer with friends : Low Priority -->

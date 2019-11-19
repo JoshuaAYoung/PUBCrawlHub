@@ -81,6 +81,7 @@ function convertAbbrev(input) {
   }
 }
 
+
 function formatQuery(parameters) {
   //takes parameter keys and makes an array out of them
   const queryItems = Object.keys(parameters)
@@ -89,6 +90,7 @@ function formatQuery(parameters) {
   //returns the array object as a single string with & in between each
     return queryItems.join('&');
 }
+
 
 function getBarsFromOB(cityQ, stateQ, limitQ=10) {
   const baseURL = 'https://api.openbrewerydb.org/breweries';
@@ -141,6 +143,7 @@ function buildMap(startBar) {
 function watchForm() {
   $('.searchForm').on('submit', function(e){
     e.preventDefault();
+    $(".listSubmit").show();
     let cityInput = $(this).find('input[name="mainSearch"]').val();
     let stateInput = convertAbbrev($(this).find('input[name="stateSearch"]').val());
     let zipcodeInput = $(this).find('input[name="zipSearch"]').val();
@@ -186,6 +189,30 @@ function makeMarkersFromUserList(barNames) {
       .addTo(map);
     }
   });
+  
+//SORT THE BREWS OBJECT
+function sortList(unordered) {
+  let ordered = {};
+  Object.keys(unordered).sort().forEach(function(key) {
+    ordered[key] = unordered[key];
+  });
+}
+
+//WATCH THE LIST OF BREWERIES SUBMIT FORM
+function watchList() {
+  $('.resultsForm').on('submit', function(e) {
+    e.preventDefault();
+    let brewObject = {};
+    for (let i = 0; i < STORE.brewResults.length; i++) {
+      brewObject[$(this).find('input[name="numberList'+ i +'"]').val()] = STORE.brewResults[i];
+    };
+    delete brewObject[""];
+    sortList(brewObject);
+    console.log(brewObject);
+    for (let i = 0; i < Object.keys(brewObject).length; i++) {
+      STORE.brewList.push(brewObject[Object.keys(brewObject)[i]]);
+    }
+  })
 }
 
 function submitForDirections() {
@@ -213,37 +240,12 @@ function submitForDirections() {
   })
 }
 
-//DRAG AND DROP
-/*
-var _el;
-
-function dragOver(e) {
-  if (isBefore(_el, e.target))
-    e.target.parentNode.insertBefore(_el, e.target);
-  else
-    e.target.parentNode.insertBefore(_el, e.target.nextSibling);
-}
-
-function dragStart(e) {
-  e.dataTransfer.effectAllowed = "move";
-  e.dataTransfer.setData("text/plain", null); // Thanks to bqlou for their comment.
-  _el = e.target;
-}
-
-function isBefore(el1, el2) {
-  if (el2.parentNode === el1.parentNode)
-    for (var cur = el1.previousSibling; cur && cur.nodeType !== 9; cur = cur.previousSibling)
-      if (cur === el2)
-        return true;
-  return false;
-}*/
 
 // VIEW HANDLERS
 function determineView(state, res) {
   if (state === 'MAIN') {
     return buildMainView();
   } else if (state === 'RESULTS') {
-    STORE.brewList = res;
     return buildResultsView(res);
   } else if (state === 'BAD RESULT') {
     return buildBadResults(res);
@@ -251,43 +253,46 @@ function determineView(state, res) {
 }
 
 function buildMainView() {
-  $('.results').html('');
+  $('.resultsList').html('');
   $('.map').html('');
 }
 
 function buildResultsView(res) {
   const bars = res;
-  $('.results').html('');
+  $('.resultsList').html('');
   $('.map').html('');
   let resultView = [];
   for(let i = 0; i < bars.length; i++) {
     resultView.push(`
-    <li class="dropzone${i+1}" draggable = "true" ondragstart="dragStart(event)" ondragover="dragOver(event)"> 
-      <h3 class="barTitle barLink">
+      <input type="text" id="numberList${i}" name="numberList${i}">
+      <li class="barCardItem"><h3 class="barTitle barLink">
         <a href="${bars[i].website_url}">${bars[i].name}</a>
       </h3>
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
-    </li>`);
+      </li>
+      `);
   }
+
   resultView.join('');
-  $('.results').html(resultView);
+  $('.resultsList').html(resultView);
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
   // buildMap(mapCenter);
   makeMarkersFromUserList(`${bars[0].street} ${bars[0].city}`);
 }
 
 function buildBadResults(res) {
-  $('.results').html('');
+  $('.resultsList').html('');
   $('.map').html('');
   let view = `<h2>We've experienced an error</h2>
   <p>${res.message}</p>`;
-  $('.results').html(view);
+  $('.resultList').html(view);
 }
 
 // PAGE READY LISTENER
 $(function() {
   watchForm();
   watchADVSearch();
+  watchList();
 })
