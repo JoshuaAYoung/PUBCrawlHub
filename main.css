@@ -19,3 +19,7 @@
   border: none;
   background-color: green;
 }
+
+.listSubmit {
+  display: none;
+}

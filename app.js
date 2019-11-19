@@ -3,7 +3,7 @@
 const STORE = {
   state: 'MAIN',
   stateNumber: 0,
-  brewList: [],
+  brewList: {},
   stateCodes: {
     AK: "Alaska",
     AL: "Alabama",
@@ -110,8 +110,7 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
     throw new Error(response.statusText)
   })
   .then(responseJson => { 
-    determineView(STORE.state, responseJson);
-    STORE.brewList = responseJson})
+    determineView(STORE.state, responseJson)})
   .catch(err => {
     STORE.state = "BAD RESULTS";
     determineView(STORE.state, err)
@@ -161,6 +160,7 @@ function watchForm() {
     let limitInput = $(this).find('input[name="resultsNumber"]').val();
     let radiusInput = $(this).find('input[name="proximitySearch"]').val();
     getBarsFromOB(cityInput, stateInput, limitInput);
+    $('.listSubmit').show();
     // getMapData();
   })
 }
@@ -182,6 +182,13 @@ function watchADVSearch() {
   });
 }
 
+function watchList() {
+  $('.reultsForm').on('submit', function(e){
+    for (i=0, i <= brewResults.length, i++) {
+      brewList[$(this).find(`input[name="numberList${i}"]`).val()] = brewResults[i];
+    }
+  }
+
 function submitForDirections() {
   $('.mapData').submit(function(e) {
     e.preventDefault();
@@ -192,29 +199,6 @@ function submitForDirections() {
   // and setDestination(lastBrewery))
 }
 
-//DRAG AND DROP
-var _el;
-
-function dragOver(e) {
-  if (isBefore(_el, e.target))
-    e.target.parentNode.insertBefore(_el, e.target);
-  else
-    e.target.parentNode.insertBefore(_el, e.target.nextSibling);
-}
-
-function dragStart(e) {
-  e.dataTransfer.effectAllowed = "move";
-  e.dataTransfer.setData("text/plain", null); // Thanks to bqlou for their comment.
-  _el = e.target;
-}
-
-function isBefore(el1, el2) {
-  if (el2.parentNode === el1.parentNode)
-    for (var cur = el1.previousSibling; cur && cur.nodeType !== 9; cur = cur.previousSibling)
-      if (cur === el2)
-        return true;
-  return false;
-}
 
 // VIEW HANDLERS
 function determineView(state, res) {
@@ -228,37 +212,39 @@ function determineView(state, res) {
 }
 
 function buildMainView() {
-  $('.results').html('');
+  $('.resultsList').html('');
   $('.map').html('');
 }
 
 function buildResultsView(res) {
   const bars = res;
-  $('.results').html('');
+  $('.resultsList').html('');
   $('.map').html('');
   let resultView = [];
   for(let i = 0; i < bars.length; i++) {
     resultView.push(`
-    <li class="dropzone${i+1}" draggable = "true" ondragstart="dragStart(event)" ondragover="dragOver(event)"> 
-      <h3 class="barTitle barLink">
+      <input type="text" id="numberList${i}" name="numberList${i}">
+      <li class="barCardItem"><h3 class="barTitle barLink">
         <a href="${bars[i].website_url}">${bars[i].name}</a>
       </h3>
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
-    </li>`);
+      </li>
+      `);
   }
+
   resultView.join('');
-  $('.results').html(resultView);
+  $('.resultsList').html(resultView);
   $('.map').html(buildMap());
 }
 
 function buildBadResults(res) {
-  $('.results').html('');
+  $('.resultsList').html('');
   $('.map').html('');
   let view = `<h2>We've experienced an error</h2>
   <p>${res.message}</p>`;
-  $('.results').html(view);
+  $('.resultList').html(view);
 }
 
 // PAGE READY LISTENER
