@@ -3,6 +3,7 @@
 const STORE = {
   state: 'MAIN',
   stateNumber: 0,
+  brewResults: [],
   brewList: [],
   stateCodes: {
     AK: "Alaska",
@@ -110,9 +111,8 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
     throw new Error(response.statusText)
   })
   .then(responseJson => { 
-    STORE.brewList = responseJson
+    STORE.brewResults = responseJson
     determineView(STORE.state, responseJson);
-    console.log(responseJson);
   })
   .catch(err => {
     STORE.state = "BAD RESULTS";
@@ -131,6 +131,7 @@ function buildMap(startBar) {
   map.addControl(new MapboxDirections({
     accessToken: mapboxgl.accessToken
   }), 'top-left');
+  return map;
 }
 
 // EVENT LISTENERS
@@ -162,6 +163,8 @@ function watchADVSearch() {
 function submitForDirections() {
   $('.mapData').submit(function(e) {
     e.preventDefault();
+    let mapCenter = [STORE.brewList[0].longitude, STORE.brewList[0].latitude]
+    buildMap(mapCenter);
   })
   // get list of breweries
   // .submit( call map.setOrigin(firstBrewery)
@@ -228,8 +231,10 @@ function buildResultsView(res) {
   }
   resultView.join('');
   $('.results').html(resultView);
-  let mapCenter = [STORE.brewList[0].longitude, STORE.brewList[0].latitude];
-  $('.map').html(buildMap(mapCenter));
+  let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
+  buildMap(mapCenter);
+  map.setOrigin(mapCenter);
+  // $('.map').html(buildMap(mapCenter).setOrigin(mapCenter));
 }
 
 function buildBadResults(res) {
