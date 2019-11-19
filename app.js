@@ -78,6 +78,7 @@ function convertAbbrev(input) {
   }
 }
 
+
 function formatQuery(parameters) {
   //takes parameter keys and makes an array out of them
   const queryItems = Object.keys(parameters)
@@ -86,6 +87,7 @@ function formatQuery(parameters) {
   //returns the array object as a single string with & in between each
     return queryItems.join('&');
 }
+
 
 function getBarsFromOB(cityQ, stateQ, limitQ=10) {
   const baseURL = 'https://api.openbrewerydb.org/breweries';
@@ -138,6 +140,7 @@ function buildMap(startBar) {
 function watchForm() {
   $('.searchForm').on('submit', function(e){
     e.preventDefault();
+    $(".listSubmit").show();
     let cityInput = $(this).find('input[name="mainSearch"]').val();
     let stateInput = convertAbbrev($(this).find('input[name="stateSearch"]').val());
     let zipcodeInput = $(this).find('input[name="zipSearch"]').val();
@@ -160,12 +163,30 @@ function watchADVSearch() {
   });
 }
 
+//SORT THE BREWS OBJECT
+function sortList(unordered) {
+  let ordered = {};
+  Object.keys(unordered).sort().forEach(function(key) {
+    ordered[key] = unordered[key];
+  });
+}
+
+//WATCH THE LIST OF BREWERIES SUBMIT FORM
 function watchList() {
-  $('.reultsForm').on('submit', function(e){
-    for (i=0, i <= brewResults.length, i++) {
-      brewList[$(this).find(`input[name="numberList${i}"]`).val()] = brewResults[i];
+  $('.resultsForm').on('submit', function(e) {
+    e.preventDefault();
+    let brewObject = {};
+    for (let i = 0; i < STORE.brewResults.length; i++) {
+      brewObject[$(this).find('input[name="numberList'+ i +'"]').val()] = STORE.brewResults[i];
+    };
+    delete brewObject[""];
+    sortList(brewObject);
+    console.log(brewObject);
+    for (let i = 0; i < Object.keys(brewObject).length; i++) {
+      STORE.brewList.push(brewObject[Object.keys(brewObject)[i]]);
     }
-  }
+  })
+}
 
 function submitForDirections() {
   $('.mapData').submit(function(e) {
@@ -185,7 +206,6 @@ function determineView(state, res) {
   if (state === 'MAIN') {
     return buildMainView();
   } else if (state === 'RESULTS') {
-    STORE.brewList = res;
     return buildResultsView(res);
   } else if (state === 'BAD RESULT') {
     return buildBadResults(res);
@@ -216,7 +236,7 @@ function buildResultsView(res) {
   }
 
   resultView.join('');
-  $('.results').html(resultView);
+  $('.resultsList').html(resultView);
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
   buildMap(mapCenter);
   map.setOrigin(mapCenter);
@@ -235,4 +255,5 @@ function buildBadResults(res) {
 $(function() {
   watchForm();
   watchADVSearch();
+  watchList();
 })
