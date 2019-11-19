@@ -69,7 +69,7 @@ const STORE = {
 const MAPBOX_URL = 'https://api.mapbox.com/';
 // KEYS
 const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
-mapboxgl.accessToken = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
+mapboxgl.accessToken = MAPBOX_API_KEY;
 
 // OPEN BREWERY
 function convertAbbrev(input) {
@@ -81,7 +81,6 @@ function convertAbbrev(input) {
   }
 }
 
-
 function formatQuery(parameters) {
   //takes parameter keys and makes an array out of them
   const queryItems = Object.keys(parameters)
@@ -91,7 +90,6 @@ function formatQuery(parameters) {
     return queryItems.join('&');
 }
 
-
 function getBarsFromOB(cityQ, stateQ, limitQ=10) {
   const baseURL = 'https://api.openbrewerydb.org/breweries';
   const params = {
@@ -100,12 +98,9 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
     per_page: limitQ,
     sort: "city"
   };
-
   //sets queryString variable as the full string of every parameter joined together
   const queryString = formatQuery(params)
   const url = baseURL + '?' + queryString;
-
-  console.log(url);
 
   fetch(url)
   .then(response => {
@@ -209,7 +204,6 @@ function watchUserList() {
     };
     delete brewObject[""];
     sortList(brewObject);
-    console.log(brewObject);
     for (let i = 0; i < Object.keys(brewObject).length; i++) {
       STORE.brewList.push(brewObject[Object.keys(brewObject)[i]]);
     }
