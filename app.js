@@ -200,7 +200,7 @@ function sortList(unordered) {
 }
 
 //WATCH THE LIST OF BREWERIES SUBMIT FORM
-function watchList() {
+function watchUserList() {
   $('.resultsForm').on('submit', function(e) {
     e.preventDefault();
     let brewObject = {};
@@ -213,6 +213,7 @@ function watchList() {
     for (let i = 0; i < Object.keys(brewObject).length; i++) {
       STORE.brewList.push(brewObject[Object.keys(brewObject)[i]]);
     }
+  makeMarkersFromUserList(`${STORE.brewList[0].street} ${STORE.brewList[0].city}`);
   })
 }
 
@@ -279,8 +280,7 @@ function buildResultsView(res) {
   resultView.join('');
   $('.resultsList').html(resultView);
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
-  // buildMap(mapCenter);
-  makeMarkersFromUserList(`${bars[0].street} ${bars[0].city}`);
+  buildMap(mapCenter);
 }
 
 function buildBadResults(res) {
@@ -295,5 +295,5 @@ function buildBadResults(res) {
 $(function() {
   watchForm();
   watchADVSearch();
-  watchList();
+  watchUserList();
 })
