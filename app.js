@@ -189,7 +189,8 @@ function makeMarkersFromUserList(barNames) {
       .addTo(map);
     }
   });
-  
+}
+
 //SORT THE BREWS OBJECT
 function sortList(unordered) {
   let ordered = {};
