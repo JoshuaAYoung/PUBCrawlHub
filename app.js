@@ -169,6 +169,30 @@ function submitForDirections() {
   // and setDestination(lastBrewery))
 }
 
+//DRAG AND DROP
+var _el;
+
+function dragOver(e) {
+  if (isBefore(_el, e.target))
+    e.target.parentNode.insertBefore(_el, e.target);
+  else
+    e.target.parentNode.insertBefore(_el, e.target.nextSibling);
+}
+
+function dragStart(e) {
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", null); // Thanks to bqlou for their comment.
+  _el = e.target;
+}
+
+function isBefore(el1, el2) {
+  if (el2.parentNode === el1.parentNode)
+    for (var cur = el1.previousSibling; cur && cur.nodeType !== 9; cur = cur.previousSibling)
+      if (cur === el2)
+        return true;
+  return false;
+}
+
 // VIEW HANDLERS
 function determineView(state, res) {
   if (state === 'MAIN') {
@@ -192,15 +216,15 @@ function buildResultsView(res) {
   $('.map').html('');
   let resultView = [];
   for(let i = 0; i < bars.length; i++) {
-    resultView.push(`<div class="barCard">
+    resultView.push(`
+    <li class="dropzone${i+1}" draggable = "true" ondragstart="dragStart(event)" ondragover="dragOver(event)"> 
       <h3 class="barTitle barLink">
         <a href="${bars[i].website_url}">${bars[i].name}</a>
       </h3>
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
-    </div>
-    `);
+    </li>`);
   }
   resultView.join('');
   $('.results').html(resultView);
