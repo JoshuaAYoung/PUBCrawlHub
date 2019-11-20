@@ -10,6 +10,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <!-- MAPBOX -->
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css" rel="stylesheet" />
+    <!-- LeafletJS for markers -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+        integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+        crossorigin="" /> -->
 
     <link rel="stylesheet" type="text/css" href="normalize.css">
     <link rel="stylesheet" href="./main.css">
@@ -24,7 +28,7 @@
         </div>
     </header>
     <main>
-        <div class="userInput" >
+        <div class="userInput">
             <form class="searchForm">
                 <fieldset>
                     <legend class="formLegend">PUBcrawlHUB Search</legend>
@@ -63,28 +67,35 @@
         <section class="results">
             <form class="resultsForm">
                 <fieldset>
-                <ul class="resultsList">
-                </ul>
-                <button type="submit" id="listSubmit">SUBMIT</button>
+                    <ul class="resultsList">
+                    </ul>
+                    <button type="submit" id="listSubmit">SUBMIT</button>
                 </fieldset>
             </form>
         </section>
-        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
-        <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
-        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css" type="text/css" />
+
         <section class="mapData">
-                <div id="map" style="width: 600px; height: 600px;">
+            <div id="map" style="width: 600px; height: 600px;">
 
             </div>
         </section>
     </main>
     <footer>
-        <p>Powered by <a href="https://www.openbrewerydb.org/">Open Brewery DB</a> and <a href="https://www.mapbox.com/">Mapbox</a></p>
+        <p>Powered by <a href="https://www.openbrewerydb.org/">Open Brewery DB</a> and <a
+                href="https://www.mapbox.com/">Mapbox</a></p>
     </footer>
-    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js"></script>
+    <script
+        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
+    <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
+    <link rel="stylesheet"
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
+        type="text/css" />
+    <!-- <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+        integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+        crossorigin=""></script> -->
     <script src="./app.js"></script>
 </body>
 

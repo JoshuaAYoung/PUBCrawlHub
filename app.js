@@ -63,13 +63,10 @@ const STORE = {
   }
 }
 
-
-
-// URLs
+// MAPBOX URL
 const MAPBOX_URL = 'https://api.mapbox.com/';
 // KEYS
 const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
-mapboxgl.accessToken = MAPBOX_API_KEY;
 
 // OPEN BREWERY
 function convertAbbrev(input) {
@@ -120,7 +117,7 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
   })
 }
 
-function buildMap(startBar) {
+function buildMap(startBar, coordArr=null) {
   mapboxgl.accessToken = MAPBOX_API_KEY;
   const map = new mapboxgl.Map({
     container: 'map',
@@ -131,7 +128,17 @@ function buildMap(startBar) {
   map.addControl(new MapboxDirections({
     accessToken: mapboxgl.accessToken,
     profile: 'mapbox/walking',
-  }), 'top-left');
+  }), 'top-left')
+
+  for(let i = 0; i < coordArr.length; i++) {
+    // create a HTML element for each feature
+    let el = document.createElement('div');
+    el.className = 'marker';
+  // make a marker for each bar and add to the map
+    new mapboxgl.Marker(el)
+      .setLngLat([parseFloat(coordArr[i][0]), parseFloat(coordArr[i][1])])
+      .addTo(map);
+  }
 }
 
 // EVENT LISTENERS
@@ -148,41 +155,10 @@ function watchForm() {
   })
 }
 
-function watchModifiers() {
-  $('#modifiers').on('click', function(e) {
-    e.preventDefault();
-  })
-}
-
-function watchADVSearch() {
+function slideOutADVSearch() {
   $('.searchForm').on('click', '#advSearchToggle', function(e) {
     e.preventDefault();
     $('.advSearchOptions').slideToggle('slow');
-  });
-}
-
-function makeMarkersFromUserList(barNames) {
-  let mapboxClient = mapboxSdk({ accessToken: mapboxgl.accessToken });
-    mapboxClient.geocoding.forwardGeocode({
-    query: barNames,
-    autocomplete: false,
-    limit: 1
-  })
-  .send()
-  .then(function (response) {
-    if (response && response.body && response.body.features && response.body.features.length) {
-    let feature = response.body.features[0];
-
-    let map = new mapboxgl.Map({
-      container: 'map',
-      style: 'mapbox://styles/mapbox/streets-v11',
-      center: feature.center,
-      zoom: 13
-    });
-    new mapboxgl.Marker()
-      .setLngLat(feature.center)
-      .addTo(map);
-    }
   });
 }
 
@@ -207,35 +183,14 @@ function watchUserList() {
     for (let i = 0; i < Object.keys(brewObject).length; i++) {
       STORE.brewList.push(brewObject[Object.keys(brewObject)[i]]);
     }
-  makeMarkersFromUserList(`${STORE.brewList[0].street} ${STORE.brewList[0].city}`);
+  let startBar = [STORE.brewList[0].longitude, STORE.brewList[0].latitude];
+  let otherBars = [];
+  STORE.brewList.forEach(bar => {
+    otherBars.push([bar.longitude, bar.latitude]);
+  });
+  buildMap(startBar, otherBars);
   })
 }
-
-function submitForDirections() {
-  $('.mapData').submit(function(e) {
-    e.preventDefault();
-    let mapCenter = [STORE.brewList[0].longitude, STORE.brewList[0].latitude]
-    buildMap(mapCenter);
-    // AFTER ADDING POINTS THIS?
-    // map.on('click', function(e) {
-    //   let features = map.queryRenderedFeatures(e.point, {
-    //     layers: ['bars'] // replace this with the name of the layer
-    //   });
-    
-    //   if (!features.length) {
-    //     return;
-    //   }
-    
-    //   let feature = features[0];
-    
-    //   let popup = new mapboxgl.Popup({ offset: [0, -15] })
-    //     .setLngLat(feature.geometry.coordinates)
-    //     .setHTML('<h3>' + feature.properties.title + '</h3><p>' + feature.properties.description + '</p>')
-    //     .addTo(map);
-    // });
-  })
-}
-
 
 // VIEW HANDLERS
 function determineView(state, res) {
@@ -288,6 +243,6 @@ function buildBadResults(res) {
 // PAGE READY LISTENER
 $(function() {
   watchForm();
-  watchADVSearch();
+  slideOutADVSearch();
   watchUserList();
 })
