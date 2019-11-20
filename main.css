@@ -41,6 +41,10 @@ li {
   background-color: grey;
 }
 
+#advSearchToggle {
+  text-transform: uppercase;
+}
+
 .listSubmit {
   display: none;
 }
