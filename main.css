@@ -1,5 +1,11 @@
 body {
   padding: 0 10px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+button a {
+  text-decoration: none;
+  color: black;
 }
 
 ul {
