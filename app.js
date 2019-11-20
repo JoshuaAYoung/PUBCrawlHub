@@ -123,7 +123,7 @@ function buildMap(startBar, coordArr=null) {
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
     center: startBar,
-    zoom: 13,
+    zoom: 11,
   });
   map.addControl(new MapboxDirections({
     accessToken: mapboxgl.accessToken,

@@ -38,7 +38,11 @@ li {
 .listSubmit {
   display: none;
 }
-
+#map {
+  margin: 10px auto;
+  width: 95%;
+  height: 300px;
+}
 .marker { 
   background-image: url('https://www.mapbox.com/mapbox.js/assets/images/astronaut2.png'); 
   background-size: cover; 
@@ -46,4 +50,9 @@ li {
   height: 50px; 
   border-radius: 50%; 
   cursor: pointer; 
+}
+
+footer {
+  margin: 0 auto;
+  text-align: center;
 }
