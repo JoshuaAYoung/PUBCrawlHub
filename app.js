@@ -215,8 +215,10 @@ function buildResultsView(res) {
   let resultView = [];
   for(let i = 0; i < bars.length; i++) {
     resultView.push(`
+      <li class="barCardItem">
+      <label for="numberList${i}">Bar Order</label>
       <input type="text" id="numberList${i}" name="numberList${i}">
-      <li class="barCardItem"><h3 class="barTitle barLink">
+      <h3 class="barTitle barLink">
         <a href="${bars[i].website_url}">${bars[i].name}</a>
       </h3>
       <p class="barAddress">${bars[i].street}</p>

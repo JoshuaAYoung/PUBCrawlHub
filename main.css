@@ -2,12 +2,23 @@ body {
   padding: 0 10px;
 }
 
+ul {
+  padding-inline-start: 0;
+}
+
+li {
+  list-style: none;
+  border: 1px solid grey;
+  margin: 5px;
+  padding: 5px;
+}
+
 .advSearchOptions {
   display: none;
 }
 
 .userInput {
-  margin: 10px 5px;
+  margin: 10px 0;
 }
 
 .userInput input {
