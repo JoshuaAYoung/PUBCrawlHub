@@ -1,10 +1,45 @@
 'use strict';
+// KEYS
+const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
+mapboxgl.accessToken = MAPBOX_API_KEY;
+
 // STORE
 const STORE = {
   state: 'MAIN',
-  stateNumber: 0,
   brewResults: [],
   brewList: [],
+  map: new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: [-104.991531, 39.742043],
+    zoom: 11,
+  }),
+  directions : new MapboxDirections({
+    accessToken: mapboxgl.accessToken,
+    profile: 'mapbox/walking',
+  }),
+  addNav: function() {
+    STORE.map.addControl(this.directions);
+  },
+  removeNav: function() {
+    STORE.map.removeControl(this.directions);
+  },
+  addMarker: function(coordArr) {
+    for(let i = 0; i < coordArr.length; i++) {
+      // create a HTML element for each feature
+      let el = document.createElement('div');
+      el.className = 'marker';
+    // make a marker for each bar and add to the map
+      new mapboxgl.Marker(el)
+        .setLngLat([parseFloat(coordArr[i][0]), parseFloat(coordArr[i][1])])
+        .addTo(STORE.map);
+    }
+  },
+  recenter: function(latLon) {
+    STORE.map.easeTo({
+      center: latLon
+    })
+  },
   stateCodes: {
     AK: "Alaska",
     AL: "Alabama",
@@ -65,8 +100,6 @@ const STORE = {
 
 // MAPBOX URL
 const MAPBOX_URL = 'https://api.mapbox.com/';
-// KEYS
-const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
 
 // OPEN BREWERY
 function convertAbbrev(input) {
@@ -117,30 +150,6 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
   })
 }
 
-function buildMap(startBar, coordArr=null) {
-  mapboxgl.accessToken = MAPBOX_API_KEY;
-  const map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: startBar,
-    zoom: 11,
-  });
-  map.addControl(new MapboxDirections({
-    accessToken: mapboxgl.accessToken,
-    profile: 'mapbox/walking',
-  }), 'top-left')
-
-  for(let i = 0; i < coordArr.length; i++) {
-    // create a HTML element for each feature
-    let el = document.createElement('div');
-    el.className = 'marker';
-  // make a marker for each bar and add to the map
-    new mapboxgl.Marker(el)
-      .setLngLat([parseFloat(coordArr[i][0]), parseFloat(coordArr[i][1])])
-      .addTo(map);
-  }
-}
-
 // EVENT LISTENERS
 function watchForm() {
   $('.searchForm').on('submit', function(e){
@@ -153,6 +162,20 @@ function watchForm() {
     let radiusInput = $(this).find('input[name="proximitySearch"]').val();
     getBarsFromOB(cityInput, stateInput, limitInput);
   })
+}
+
+function addDirections() {
+  $('#addDirections').on('click', e => {
+    e.preventDefault();
+    STORE.addNav();
+  })
+}
+
+function removeDirections() {
+  $('#removeDirections').on('click', e => {
+    e.preventDefault();
+    STORE.removeNav();
+  });
 }
 
 function slideOutADVSearch() {
@@ -188,7 +211,7 @@ function watchUserList() {
   STORE.brewList.forEach(bar => {
     otherBars.push([bar.longitude, bar.latitude]);
   });
-  buildMap(startBar, otherBars);
+  STORE.addMarker(otherBars);
   })
 }
 
@@ -201,11 +224,6 @@ function determineView(state, res) {
   } else if (state === 'BAD RESULT') {
     return buildBadResults(res);
   }
-}
-
-function buildMainView() {
-  $('.resultsList').html('');
-  $('.map').html('');
 }
 
 function buildResultsView(res) {
@@ -231,7 +249,9 @@ function buildResultsView(res) {
   resultView.join('');
   $('.resultsList').html(resultView);
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
-  buildMap(mapCenter);
+  STORE.map;
+  STORE.addNav();
+  STORE.recenter(mapCenter);
 }
 
 function buildBadResults(res) {
@@ -247,4 +267,6 @@ $(function() {
   watchForm();
   slideOutADVSearch();
   watchUserList();
+  removeDirections();
+  addDirections();
 })
