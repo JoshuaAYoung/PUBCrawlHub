@@ -307,6 +307,7 @@ function buildResultsView(res, missingResults=false) {
       </li>
       `);
   }
+  // TODO - get rid of comma between li's
   resultView.join('');
   if(missingResults) {
     // TODO - fade this out after timeout
