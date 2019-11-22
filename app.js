@@ -217,6 +217,7 @@ function watchUserList() {
   STORE.brewList.forEach(bar => {
     otherBars.push([bar.longitude, bar.latitude]);
   });
+  STORE.recenter(startBar);
   STORE.addMarker(otherBars);
   })
 }
