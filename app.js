@@ -99,15 +99,40 @@ const STORE = {
 }
 
 /////// RANDOM ///////
-$(".resultsList").sortable(
-  
-);
+
+// sortable jquery code
+$(".resultsList").sortable({
+  stop: function(event, ui) {
+    orderNumber();
+    fillBrewList();
+    passToMap();
+  }
+});
+
+//iterates through each of the list items and sets the order number to the .ordernumber div
+function orderNumber() {
+  $(".resultsList li").each(function (i) {
+    let position = i++;
+    $(this).find(".orderNumber").html(position + 1);
+  })
+}
 
 
-// MAPBOX URL
+function fillBrewList() {
+  STORE.brewList = [];
+  $(".resultsList li").each(function() {
+    let resultIndex = STORE.brewResults.findIndex(arrayItem => {
+      return arrayItem.name === $(this).find(".barName").html();
+    }); 
+    STORE.brewList.push(STORE.brewResults[resultIndex]);
+  })
+  console.log("Brew List is Full Up!")
+}
+
+// mapbox url
 const MAPBOX_URL = 'https://api.mapbox.com/';
 
-// OPEN BREWERY
+// open brewery
 function convertAbbrev(input) {
   if (input.length === 2) {
     return STORE.stateCodes[input.toUpperCase()];
@@ -134,7 +159,6 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
     per_page: limitQ,
     sort: "city"
   };
-  //sets queryString variable as the full string of every parameter joined together
   const queryString = formatQuery(params)
   const url = baseURL + '?' + queryString;
 
@@ -191,27 +215,8 @@ function slideOutADVSearch() {
   });
 }
 
-//sorts brewlist
-function sortList(unordered) {
-  let ordered = {};
-  Object.keys(unordered).sort().forEach(function(key) {
-    ordered[key] = unordered[key];
-  });
-}
-
-//watch the list of breweries form
-function watchUserList() {
-  $('.resultsForm').on('submit', function(event) {
-    event.preventDefault();
-    let brewObject = {};
-    for (let i = 0; i < STORE.brewResults.length; i++) {
-      brewObject[$(this).find('input[name="numberList'+ i +'"]').val()] = STORE.brewResults[i];
-    };
-    delete brewObject[""];
-    sortList(brewObject);
-    for (let i = 0; i < Object.keys(brewObject).length; i++) {
-      STORE.brewList.push(brewObject[Object.keys(brewObject)[i]]);
-    }
+//sends brewlist to the map
+function passToMap () {
   let startBar = [STORE.brewList[0].longitude, STORE.brewList[0].latitude];
   let otherBars = [];
   STORE.brewList.forEach(bar => {
@@ -219,15 +224,25 @@ function watchUserList() {
   });
   STORE.recenter(startBar);
   STORE.addMarker(otherBars);
+}
+
+//watch the list of breweries form
+function watchUserList() {
+  $('.resultsForm').on('submit', function(event) {
+    event.preventDefault();
+    fillBrewList();
+
   })
 }
 
 //button to remove a result
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function(event) {
-    console.log($(this));
     event.preventDefault();
     $(this).parent().remove();
+    orderNumber();
+    fillBrewList();
+    passToMap();
   })
 };
 
@@ -252,14 +267,16 @@ function buildResultsView(res) {
   for(let i = 0; i < bars.length; i++) {
     resultView.push(`
       <li class="barCardItem" id=List${i+1}>
-      <div class="orderNumber">
+      <div class="orderNumber">${i + 1}
       </div>
+      <div class="barContainer">
       <h3 class="barTitle barLink">
-        <a href="${bars[i].website_url}">${bars[i].name} target="_blank"></a>
+        <a href="${bars[i].website_url}" class="barName" target="_blank">${bars[i].name}</a>
       </h3>
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
+      </div>
       <button type="button" id="removeButton" class="removeButton">X</button>
       </li>
       `);

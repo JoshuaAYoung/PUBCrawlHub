@@ -66,3 +66,16 @@ footer {
   margin: 0 auto;
   text-align: center;
 }
+
+.orderNumber {
+  font-weight: bold;
+  font-size: 2em;
+  display:inline-block;
+  margin-right: 20px;
+  vertical-align: center;
+}
+
+.barContainer {
+  display:inline-block;
+
+}
