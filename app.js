@@ -153,10 +153,11 @@ function getBarsFromOB(cityQ, stateQ, limitQ=20) {
   .then(responseJson => { 
     let geocodedResults = filterResultsWithoutLatLon(responseJson);
     STORE.brewResults = geocodedResults;
+    let missingResults = false;
     if(geocodedResults.length !== responseJson.length) {
-      alert('Some results were removed do to mission location information.')
+      missingResults = true;
     }
-    determineView(STORE.state, geocodedResults);
+    determineView(STORE.state, geocodedResults, missingResults);
   })
   .catch(err => {
     STORE.state = "BAD RESULTS";
@@ -251,18 +252,18 @@ function removeBar() {
 
 
 /////// VIEW HANDLERS ///////
-function determineView(state, res) {
+function determineView(state, res, missingResults) {
   if (state === 'MAIN') {
     return buildMainView();
   } else if (state === 'RESULTS') {
-    return buildResultsView(res);
+    return buildResultsView(res, missingResults);
   } else if (state === 'BAD RESULT') {
     return buildBadResults(res);
   }
 }
 
 //generate the results html for happy result
-function buildResultsView(res) {
+function buildResultsView(res, missingResults=false) {
   const bars = res;
   $('.resultsList').html('');
   $('.map').html('');
@@ -278,12 +279,19 @@ function buildResultsView(res) {
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
-      <button type="button" id="removeButton" class="removeButton">X</button>
+      <button class="animated-button" type="button" id="removeButton" class="removeButton">X</button>
       </li>
       `);
   }
   resultView.join('');
-  $('.resultsList').html(resultView);
+  if(missingResults) {
+    $('.resultsList').html(`<div class="alert">
+      Some results were removed do to missing location information.
+    </div>
+    ${resultView}`);
+  } else {
+    $('.resultsList').html(resultsView);
+  }
   removeBar();
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
   STORE.map;

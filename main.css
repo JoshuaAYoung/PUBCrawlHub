@@ -5,7 +5,56 @@ body {
 
 button a {
   text-decoration: none;
+}
+
+button a:hover {
+  color: #fff;
+}
+
+a:visited {
   color: black;
+}
+
+button.animated-button {
+  color: black;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  border: 2px solid rgb(0, 70, 128);
+  border-radius: 5px;
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+button.animated-button:hover {
+  color: #fff !important;
+  background-color: transparent;
+  text-shadow: none;
+}
+button.animated-button:hover:before {
+  bottom: 0%;
+  top: auto;
+  height: 100%;
+}
+button.animated-button:before {
+  display: block;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 0px;
+  width: 100%;
+  z-index: -1;
+  content: '';
+  color: #fff !important;
+  background: rgb(0, 70, 128);
+  transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+
+.alert {
+  border: 2px solid rgba(253, 0, 0, 0.5);
+  background-color: rgba(255, 180, 180, 0.8);
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 10px auto;
 }
 
 ul {
@@ -29,16 +78,8 @@ li {
 
 .userInput input {
   float: right;
-}
-
-#submitButton {
-  margin: 10px auto;
-  text-align: center;
-  display: block;
-  width: 50%;
-  height: 30px;
-  border: none;
-  background-color: grey;
+  border-radius: 5px;
+  width: 30%;
 }
 
 #advSearchToggle {
@@ -48,11 +89,13 @@ li {
 .listSubmit {
   display: none;
 }
+
 #map {
   margin: 10px auto;
   width: 95%;
   height: 500px;
 }
+
 .marker { 
   background-image: url('https://www.mapbox.com/mapbox.js/assets/images/astronaut2.png'); 
   background-size: cover; 
