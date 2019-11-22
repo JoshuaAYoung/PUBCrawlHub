@@ -24,6 +24,7 @@ const STORE = {
   removeNav: function() {
     STORE.map.removeControl(this.directions);
   },
+  nav: null,
   addMarker: function(coordArr) {
     for(let i = 0; i < coordArr.length; i++) {
       // create a HTML element for each feature
@@ -186,14 +187,20 @@ function watchForm() {
 function addDirections() {
   $('#addDirections').on('click', e => {
     e.preventDefault();
-    STORE.addNav();
+    if(STORE.nav !== true) {
+      STORE.addNav();
+      STORE.nav = true;
+    }
   })
 }
 
 function removeDirections() {
   $('#removeDirections').on('click', e => {
     e.preventDefault();
-    STORE.removeNav();
+    if(STORE.nav !== false) {
+      STORE.removeNav();
+      STORE.nav = false;
+    }
   });
 }
 
@@ -296,6 +303,7 @@ function buildResultsView(res, missingResults=false) {
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
   STORE.map;
   STORE.addNav();
+  STORE.nav = true;
   STORE.recenter(mapCenter);
   let initialBars = [];
   STORE.brewResults.forEach(bar => {

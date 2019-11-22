@@ -68,6 +68,19 @@ li {
   padding: 5px;
 }
 
+li a {
+  color: rgb(0, 70, 128);
+  text-decoration: none;
+}
+
+li a:hover {
+  text-decoration: underline;
+}
+
+li a:visited {
+  color: rgb(0, 70, 128);
+}
+
 .advSearchOptions {
   display: none;
 }
