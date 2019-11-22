@@ -235,7 +235,6 @@ function clearMarkers() {
 //button to remove a result
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function(event) {
-    console.log($(this));
     event.preventDefault();
     $(this).parent().remove();
   })
@@ -304,4 +303,5 @@ $(function() {
   watchUserList();
   removeDirections();
   addDirections();
+  clearMarkers();
 })
