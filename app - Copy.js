@@ -154,7 +154,35 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
   })
 }
 
+<<<<<<< HEAD
+function buildMap(startBar, coordArr=null) {
+  mapboxgl.accessToken = MAPBOX_API_KEY;
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: startBar,
+    zoom: 11,
+  });
+  map.addControl(new MapboxDirections({
+    accessToken: mapboxgl.accessToken,
+    profile: 'mapbox/walking',
+  }), 'top-left')
+
+  for(let i = 0; i < coordArr.length; i++) {
+    //create an HTML element for each feature
+    let el = document.createElement('div');
+    el.className = 'marker';
+    //make a marker for each bar and add to the map
+    new mapboxgl.Marker(el)
+      .setLngLat([parseFloat(coordArr[i][0]), parseFloat(coordArr[i][1])])
+      .addTo(map);
+  }
+}
+
 /////// EVENT LISTENERS ///////
+=======
+// EVENT LISTENERS
+>>>>>>> 14570d590ab4a8c74b23e112727489f3212ba6be
 function watchForm() {
   $('.searchForm').on('submit', function(e){
     e.preventDefault();
@@ -264,9 +292,13 @@ function buildResultsView(res) {
   $('.resultsList').html(resultView);
   removeBar();
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
+<<<<<<< HEAD
+  buildMap(mapCenter)
+=======
   STORE.map;
   STORE.addNav();
   STORE.recenter(mapCenter);
+>>>>>>> 14570d590ab4a8c74b23e112727489f3212ba6be
 }
 
 function buildBadResults(res) {
