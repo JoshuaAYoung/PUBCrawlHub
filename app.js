@@ -166,9 +166,9 @@ function watchForm() {
     $(".listSubmit").show();
     let cityInput = $(this).find('input[name="mainSearch"]').val();
     let stateInput = convertAbbrev($(this).find('input[name="stateSearch"]').val());
-    let zipcodeInput = $(this).find('input[name="zipSearch"]').val();
+    // let zipcodeInput = $(this).find('input[name="zipSearch"]').val();
     let limitInput = $(this).find('input[name="resultsNumber"]').val();
-    let radiusInput = $(this).find('input[name="proximitySearch"]').val();
+    // let radiusInput = $(this).find('input[name="proximitySearch"]').val();
     getBarsFromOB(cityInput, stateInput, limitInput);
   })
 }

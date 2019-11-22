@@ -38,30 +38,30 @@
                         <label class="searchLocation" for="mainSearch">City:</label>
                         <input type="text" id="mainSearch" name="mainSearch">
                     </div>
-                    <div class="userInput">
-                        <button name="advSearch" id="advSearchToggle">Advanced Search</button>
-                    </div>
                     <div class="advSearchOptions">
                         <div class="userInput">
                             <label for="stateSearch">State:</label>
                             <input type="text" name="stateSearch" id="stateSearch">
                         </div>
-                        <div class="userInput">
+                        <!-- <div class="userInput">
                             <label for="zipSearch">Zipcode:</label>
                             <input type="text" name="zipSearch" id="zipSearch">
-                        </div>
+                        </div> -->
                         <div class="userInput">
                             <label class="searchLimit" for="resultsNumber">Number of results:</label>
                             <input type="number" id="resultsNumber" name="resultsNumber">
                         </div>
-                        <div class="userInput">
+                        <!-- <div class="userInput">
                             <label class="advSearchOption searchRadius" for="proximitySearch">Radius in
                                 miles:</label>
                             <input class="advSearchOption" type="text" id="proximitySearch" name="proximitySearch">
-                        </div>
+                        </div> -->
                     </div>
                     <div class="userInput">
                         <button type="submit" id="submitButton">GET BREWERIES</button>
+                    </div>
+                    <div class="userInput">
+                        <button name="advSearch" id="advSearchToggle">MORE SEARCH OPTIONS</button>
                     </div>
                     <button><a href="#map">GO TO MAP</a></button>
                 </fieldset>
@@ -74,8 +74,8 @@
                     </ul>
                     <button type="submit" id="listSubmit">ADD BREWERIES TO MAP</button>
                     <button id="clearMarkers">CLEAR MARKERS</button>
-                    <button id="addDirections">ADD DIRECTIONS</button>
-                    <button id="removeDirections">REMOVE DIRECTIONS</button>
+                    <button id="addDirections">SHOW DIRECTIONS</button>
+                    <button id="removeDirections">HIDE DIRECTIONS</button>
                 </fieldset>
             </form>
         </section>
