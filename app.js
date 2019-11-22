@@ -99,7 +99,9 @@ const STORE = {
 }
 
 /////// RANDOM ///////
-$(".resultsList").sortable();
+$(".resultsList").sortable(
+  
+);
 
 
 // MAPBOX URL
@@ -220,7 +222,7 @@ function watchUserList() {
   })
 }
 
-//remove button
+//button to remove a result
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function(event) {
     console.log($(this));
@@ -241,6 +243,7 @@ function determineView(state, res) {
   }
 }
 
+//generate the results html for happy result
 function buildResultsView(res) {
   const bars = res;
   $('.resultsList').html('');
@@ -270,6 +273,7 @@ function buildResultsView(res) {
   STORE.recenter(mapCenter);
 }
 
+//generate html for unhappy result
 function buildBadResults(res) {
   $('.resultsList').html('');
   $('.map').html('');
