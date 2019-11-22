@@ -254,7 +254,7 @@ function buildResultsView(res) {
       <div class="orderNumber">
       </div>
       <h3 class="barTitle barLink">
-        <a href="${bars[i].website_url}">${bars[i].name}</a>
+        <a href="${bars[i].website_url}">${bars[i].name} target="_blank"></a>
       </h3>
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
