@@ -40,6 +40,9 @@ const STORE = {
       center: latLon
     })
   },
+  removeMarkers: function() {
+    $('.marker').remove();
+  },
   stateCodes: {
     AK: "Alaska",
     AL: "Alabama",
@@ -222,6 +225,13 @@ function watchUserList() {
   })
 }
 
+function clearMarkers() {
+  $('#clearMarkers').on('click', e => {
+    e.preventDefault();
+    STORE.removeMarkers();
+  })
+}
+
 //button to remove a result
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function(event) {
@@ -255,7 +265,7 @@ function buildResultsView(res) {
       <div class="orderNumber">
       </div>
       <h3 class="barTitle barLink">
-        <a href="${bars[i].website_url}">${bars[i].name} target="_blank"></a>
+        <a href="${bars[i].website_url}" target="_blank">${bars[i].name}</a>
       </h3>
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
@@ -271,6 +281,11 @@ function buildResultsView(res) {
   STORE.map;
   STORE.addNav();
   STORE.recenter(mapCenter);
+  let initialBars = [];
+  STORE.brewResults.forEach(bar => {
+    initialBars.push([bar.longitude, bar.latitude]);
+  });
+  STORE.addMarker(initialBars);
 }
 
 //generate html for unhappy result
