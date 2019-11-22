@@ -120,6 +120,7 @@ function convertAbbrev(input) {
   }
 }
 
+// DATA HANDLERS
 function formatQuery(parameters) {
   //takes parameter keys and makes an array out of them
   const queryItems = Object.keys(parameters)
@@ -129,7 +130,7 @@ function formatQuery(parameters) {
     return queryItems.join('&');
 }
 
-function getBarsFromOB(cityQ, stateQ, limitQ=10) {
+function getBarsFromOB(cityQ, stateQ, limitQ=20) {
   const baseURL = 'https://api.openbrewerydb.org/breweries';
   const params = {
     by_city: cityQ,
@@ -150,13 +151,18 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
     throw new Error(response.statusText)
   })
   .then(responseJson => { 
-    STORE.brewResults = responseJson
-    determineView(STORE.state, responseJson);
+    let geocodedResults = filterResultsWithoutLatLon(responseJson);
+    STORE.brewResults = geocodedResults;
+    determineView(STORE.state, geocodedResults);
   })
   .catch(err => {
     STORE.state = "BAD RESULTS";
     determineView(STORE.state, err)
   })
+}
+
+function filterResultsWithoutLatLon(res) {
+  return res.filter(bar => bar.longitude !== null || bar.latitude !== null);
 }
 
 /////// EVENT LISTENERS ///////
