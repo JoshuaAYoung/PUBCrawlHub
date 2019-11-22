@@ -22,6 +22,8 @@ button.animated-button {
   position: relative;
   border: 2px solid rgb(0, 70, 128);
   border-radius: 5px;
+  width: 200px;
+  margin: 5px 0;
   transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 button.animated-button:hover {
@@ -121,4 +123,18 @@ li a:visited {
 footer {
   margin: 0 auto;
   text-align: center;
+}
+
+footer a {
+  color: rgb(0, 70, 128);
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: rgb(100, 150, 190);
+  text-decoration: underline;
+}
+
+footer a:visited {
+  color: rgb(0, 70, 128);
 }
