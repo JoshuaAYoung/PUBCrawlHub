@@ -25,6 +25,13 @@ const STORE = {
     STORE.map.removeControl(this.directions);
   },
   nav: null,
+  popup: function(marker, i) {
+    new mapboxgl.Popup({className: 'popup'})
+    .setLngLat(marker)
+    .setHTML(`<h4>${i}</h4>`)
+    .setMaxWidth("50px")
+    .addTo(STORE.map);
+  },
   addMarker: function(coordArr) {
     for(let i = 0; i < coordArr.length; i++) {
       // create a HTML element for each feature
@@ -33,7 +40,8 @@ const STORE = {
     // make a marker for each bar and add to the map
       new mapboxgl.Marker(el)
         .setLngLat([parseFloat(coordArr[i][0]), parseFloat(coordArr[i][1])])
-        .addTo(STORE.map);
+        .addTo(STORE.map)
+        .setPopup(STORE.popup([parseFloat(coordArr[i][0]), parseFloat(coordArr[i][1])], i));
     }
   },
   recenter: function(latLon) {
