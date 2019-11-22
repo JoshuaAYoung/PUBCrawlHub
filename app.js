@@ -309,6 +309,7 @@ function buildResultsView(res, missingResults=false) {
   }
   resultView.join('');
   if(missingResults) {
+    // TODO - fade this out after timeout
     $('.resultsList').html(`<div class="alert">
       Some results were removed do to missing location information.
     </div>
