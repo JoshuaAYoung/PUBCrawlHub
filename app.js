@@ -25,23 +25,23 @@ const STORE = {
     STORE.map.removeControl(this.directions);
   },
   nav: null,
-  popup: function(marker, i) {
+  popup: function(coordArr, name) {
     new mapboxgl.Popup({className: 'popup'})
-    .setLngLat(marker)
-    .setHTML(`<h4>${i}</h4>`)
-    .setMaxWidth("50px")
+    .setLngLat(coordArr)
+    .setHTML(`<h4>${name}</h4>`)
+    .setMaxWidth("200px")
     .addTo(STORE.map);
   },
-  addMarker: function(coordArr) {
-    for(let i = 0; i < coordArr.length; i++) {
+  addMarker: function(barArr) {
+    for(let i = 0; i < barArr.length; i++) {
       // create a HTML element for each feature
       let el = document.createElement('div');
       el.className = 'marker';
     // make a marker for each bar and add to the map
       new mapboxgl.Marker(el)
-        .setLngLat([parseFloat(coordArr[i][0]), parseFloat(coordArr[i][1])])
+        .setLngLat([parseFloat(barArr[i][0]), parseFloat(barArr[i][1])])
         .addTo(STORE.map)
-        .setPopup(STORE.popup([parseFloat(coordArr[i][0]), parseFloat(coordArr[i][1])], i));
+        .setPopup(STORE.popup([parseFloat(barArr[i][0]), parseFloat(barArr[i][1])], barArr[i][2]));
     }
   },
   recenter: function(latLon) {
@@ -243,7 +243,7 @@ function watchUserList() {
   let startBar = [STORE.brewList[0].longitude, STORE.brewList[0].latitude];
   let otherBars = [];
   STORE.brewList.forEach(bar => {
-    otherBars.push([bar.longitude, bar.latitude]);
+    otherBars.push([bar.longitude, bar.latitude, bar.name]);
   });
   STORE.recenter(startBar);
   STORE.addMarker(otherBars);
@@ -315,7 +315,7 @@ function buildResultsView(res, missingResults=false) {
   STORE.recenter(mapCenter);
   let initialBars = [];
   STORE.brewResults.forEach(bar => {
-    initialBars.push([bar.longitude, bar.latitude]);
+    initialBars.push([bar.longitude, bar.latitude, bar.name]);
   });
   STORE.addMarker(initialBars);
 }
