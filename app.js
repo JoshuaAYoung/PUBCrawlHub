@@ -24,6 +24,7 @@ const STORE = {
   removeNav: function() {
     STORE.map.removeControl(this.directions);
   },
+  nav: null,
   addMarker: function(coordArr) {
     for(let i = 0; i < coordArr.length; i++) {
       // create a HTML element for each feature
@@ -39,6 +40,9 @@ const STORE = {
     STORE.map.easeTo({
       center: latLon
     })
+  },
+  removeMarkers: function() {
+    $('.marker').remove();
   },
   stateCodes: {
     AK: "Alaska",
@@ -142,6 +146,7 @@ function convertAbbrev(input) {
   }
 }
 
+// DATA HANDLERS
 function formatQuery(parameters) {
   //takes parameter keys and makes an array out of them
   const queryItems = Object.keys(parameters)
@@ -151,7 +156,7 @@ function formatQuery(parameters) {
     return queryItems.join('&');
 }
 
-function getBarsFromOB(cityQ, stateQ, limitQ=10) {
+function getBarsFromOB(cityQ, stateQ, limitQ=20) {
   const baseURL = 'https://api.openbrewerydb.org/breweries';
   const params = {
     by_city: cityQ,
@@ -171,13 +176,22 @@ function getBarsFromOB(cityQ, stateQ, limitQ=10) {
     throw new Error(response.statusText)
   })
   .then(responseJson => { 
-    STORE.brewResults = responseJson
-    determineView(STORE.state, responseJson);
+    let geocodedResults = filterResultsWithoutLatLon(responseJson);
+    STORE.brewResults = geocodedResults;
+    let missingResults = false;
+    if(geocodedResults.length !== responseJson.length) {
+      missingResults = true;
+    }
+    determineView(STORE.state, geocodedResults, missingResults);
   })
   .catch(err => {
     STORE.state = "BAD RESULTS";
     determineView(STORE.state, err)
   })
+}
+
+function filterResultsWithoutLatLon(res) {
+  return res.filter(bar => bar.longitude !== null || bar.latitude !== null);
 }
 
 /////// EVENT LISTENERS ///////
@@ -187,9 +201,9 @@ function watchForm() {
     $(".listSubmit").show();
     let cityInput = $(this).find('input[name="mainSearch"]').val();
     let stateInput = convertAbbrev($(this).find('input[name="stateSearch"]').val());
-    let zipcodeInput = $(this).find('input[name="zipSearch"]').val();
+    // let zipcodeInput = $(this).find('input[name="zipSearch"]').val();
     let limitInput = $(this).find('input[name="resultsNumber"]').val();
-    let radiusInput = $(this).find('input[name="proximitySearch"]').val();
+    // let radiusInput = $(this).find('input[name="proximitySearch"]').val();
     getBarsFromOB(cityInput, stateInput, limitInput);
   })
 }
@@ -197,14 +211,20 @@ function watchForm() {
 function addDirections() {
   $('#addDirections').on('click', e => {
     e.preventDefault();
-    STORE.addNav();
+    if(STORE.nav !== true) {
+      STORE.addNav();
+      STORE.nav = true;
+    }
   })
 }
 
 function removeDirections() {
   $('#removeDirections').on('click', e => {
     e.preventDefault();
-    STORE.removeNav();
+    if(STORE.nav !== false) {
+      STORE.removeNav();
+      STORE.nav = false;
+    }
   });
 }
 
@@ -235,6 +255,13 @@ function watchUserList() {
   })
 }
 
+function clearMarkers() {
+  $('#clearMarkers').on('click', e => {
+    e.preventDefault();
+    STORE.removeMarkers();
+  })
+}
+
 //button to remove a result
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function(event) {
@@ -248,18 +275,18 @@ function removeBar() {
 
 
 /////// VIEW HANDLERS ///////
-function determineView(state, res) {
+function determineView(state, res, missingResults) {
   if (state === 'MAIN') {
     return buildMainView();
   } else if (state === 'RESULTS') {
-    return buildResultsView(res);
+    return buildResultsView(res, missingResults);
   } else if (state === 'BAD RESULT') {
     return buildBadResults(res);
   }
 }
 
 //generate the results html for happy result
-function buildResultsView(res) {
+function buildResultsView(res, missingResults=false) {
   const bars = res;
   $('.resultsList').html('');
   $('.map').html('');
@@ -276,18 +303,30 @@ function buildResultsView(res) {
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
-      </div>
-      <button type="button" id="removeButton" class="removeButton">X</button>
+      <button class="animated-button" type="button" id="removeButton" class="removeButton">X</button>
       </li>
       `);
   }
   resultView.join('');
-  $('.resultsList').html(resultView);
+  if(missingResults) {
+    $('.resultsList').html(`<div class="alert">
+      Some results were removed do to missing location information.
+    </div>
+    ${resultView}`);
+  } else {
+    $('.resultsList').html(resultsView);
+  }
   removeBar();
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
   STORE.map;
   STORE.addNav();
+  STORE.nav = true;
   STORE.recenter(mapCenter);
+  let initialBars = [];
+  STORE.brewResults.forEach(bar => {
+    initialBars.push([bar.longitude, bar.latitude]);
+  });
+  STORE.addMarker(initialBars);
 }
 
 //generate html for unhappy result
@@ -306,4 +345,5 @@ $(function() {
   watchUserList();
   removeDirections();
   addDirections();
+  clearMarkers();
 })
