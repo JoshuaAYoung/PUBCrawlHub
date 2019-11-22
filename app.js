@@ -153,6 +153,9 @@ function getBarsFromOB(cityQ, stateQ, limitQ=20) {
   .then(responseJson => { 
     let geocodedResults = filterResultsWithoutLatLon(responseJson);
     STORE.brewResults = geocodedResults;
+    if(geocodedResults.length !== responseJson.length) {
+      alert('Some results were removed do to mission location information.')
+    }
     determineView(STORE.state, geocodedResults);
   })
   .catch(err => {
