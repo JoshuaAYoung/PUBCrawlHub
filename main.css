@@ -108,7 +108,7 @@ fieldset {
   margin: 0 10px;
 }
 
-.resultsFieldset {
+.results {
   display: none;
 }
 
@@ -117,10 +117,6 @@ fieldset {
 }
 
 .mapHeader {
-  display: none;
-}
-
-.resultsHeader {
   display: none;
 }
 
@@ -263,7 +259,7 @@ hr {
   color: white;
   z-index: 100;
 }
-}
+
 
 .marker { 
   background-image: url('https://www.mapbox.com/mapbox.js/assets/images/astronaut2.png'); 
@@ -352,5 +348,6 @@ hr {
     order: 2;
     width: 49%;
     padding: 5px;
+    margin: 0 auto;
   }
 }
