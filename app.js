@@ -3,6 +3,9 @@
 const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
 mapboxgl.accessToken = MAPBOX_API_KEY;
 
+// MAPBOX URL
+const MAPBOX_URL = 'https://api.mapbox.com/';
+
 // STORE
 const STORE = {
   state: 'MAIN',
@@ -103,7 +106,7 @@ const STORE = {
   }
 }
 
-/////// RANDOM ///////
+/////// HELPER FUNCTIONS ///////
 
 function generateCopyright() {
   let d = new Date();
@@ -138,9 +141,6 @@ function fillBrewList() {
     STORE.brewList.push(STORE.brewResults[resultIndex]);
   })
 }
-
-// mapbox url
-const MAPBOX_URL = 'https://api.mapbox.com/';
 
 // open brewery
 function convertAbbrev(input) {
