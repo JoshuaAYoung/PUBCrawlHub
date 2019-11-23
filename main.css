@@ -108,7 +108,15 @@ fieldset {
   margin: 0 10px;
 }
 
+.resultsHeader {
+  display: none;
+}
+
 .results {
+  display: none;
+}
+
+.resultsBreak {
   display: none;
 }
 
