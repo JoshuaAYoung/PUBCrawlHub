@@ -314,5 +314,26 @@ footer a:visited {
 }
 
 @media only screen and (min-device-width : 420px) {
-  
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+  #scrollMap {
+    display: none;
+  }
+  .results {
+    order: 1;
+  }
+  .mapData {
+    order: 2;
+  }
+  #map {
+    box-sizing: border-box;
+    width: 100%;
+  }
+  #map canvas {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 10px 10px;
+  }
 }
