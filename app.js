@@ -108,7 +108,7 @@ const STORE = {
 function generateCopyright() {
   let d = new Date();
   let year = d.getFullYear();
-  $(".copyright").html(`Copyright © ${year} <br> <span class="name">Michael Ploughman</span> & <span class="name">Josh Young</span>`)
+  $(".copyright").html(`Copyright © ${year}`)
 }
 
 // sortable jquery code
@@ -336,7 +336,7 @@ function buildResultsView(missingResults = false) {
       <p class="barAddress barInfo">${bars[i].street}</p>
       <p class="barAddress barInfo">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone barInfo">${bars[i].phone}</p>
-      <button type="button" id="removeButton" class="removeButton">X</button>
+      <button type="button" id="removeButton" class="removeButton">&times</button>
       </li>`);
   }
   if (missingResults) {

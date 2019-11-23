@@ -101,26 +101,6 @@ button.animated-button:before {
   letter-spacing: -.04em;
 }
 
-.mapButton {
-  background: none;
-  padding: 6px 8px;
-  border: 0;
-  cursor: pointer;
-  outline: none;
-  background-color: #212121;
-  border-radius: 5px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: -.04em;
-  position: relative;
-  left: 50%;
-  margin-left: -62px;
-  bottom: 45px;
-  color: white;
-}
-
-
 .buttonContainer {
   display: inline-block;
 }
@@ -153,20 +133,15 @@ button.animated-button:before {
   display: none;
 }
 
-#map {
-  margin: 10px 17px;
-  height: 500px;
-}
-
 hr {
   height: 1px;
   border: 0;
   background-color: #8E8E8E;
-  margin: 25px 25px 0;
+  margin: 40px 25px 0;
 }
 
 .headerText {
-  margin: 20px 0 0;
+  margin: 28px 0 0;
   font-family: 'Montserrat', sans-serif;  
   font-size: 22px;
   font-weight: 600;
@@ -206,7 +181,7 @@ hr {
 
 .barCardItem {
   list-style-type: none;
-  margin: 23px 13px 0;
+  margin: 23px 17px 0;
   background-color: rgba(192, 193, 191, .92);
   border-radius: 7px;
   padding: 13px;
@@ -255,13 +230,44 @@ hr {
 }
 
 #removeButton {
-  background-color: none;
   position: absolute;
-  border: 1px solid #343434;
-  color: #343434;
-  font-family: 'Montserrat', sans-serif; 
-  font-size: 18px;
-  font-weight: 600;
+  border: none;
+  color: #6D6D6D;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 40px;
+  font-weight: 300;
+  background: none;
+  border-radius: 3px;
+  top: 2px;
+  right: 3px;
+  line-height: .9em;
+}
+
+#map {
+  margin: 25px 17px 10px;
+  height: 500px;
+  border: 3px solid #0084CE;
+}
+
+.mapButton {
+  background: none;
+  padding: 6px 8px;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+  background-color: #212121;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -.04em;
+  position: relative;
+  left: 50%;
+  margin-left: -5%;
+  bottom: 50px;
+  color: white;
+  z-index: 100;
+}
 }
 
 .marker { 
@@ -273,18 +279,34 @@ hr {
   cursor: pointer; 
 }
 
-footer a {
-  color: rgb(0, 70, 128);
-  text-decoration: none;
+.poweredText {
+  margin: -20px 0 0;
 }
 
-footer a:hover {
-  color: rgb(100, 150, 190);
+.poweredText, .copyText, .copyright {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 300;
+  color: #AAAAAA;
+}
+
+.boldAtr {
+  font-weight: 600;
+  color: #0084CE;
   text-decoration: underline;
 }
 
-footer a:visited {
-  color: rgb(0, 70, 128);
+.boldLink{
+  color: #AAAAAA;
+  text-decoration: underline;
+}
+
+.copyright {
+  margin: 40px 0 2px;
+}
+
+.copyText {
+  margin: 0 0 15px;
 }
 
 #scrollMap {
