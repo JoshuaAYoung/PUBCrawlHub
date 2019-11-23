@@ -48,9 +48,10 @@ button.animated-button:before {
 
 .searchFieldset {
   border: 0;
-  padding: 0 15px;
+  padding: 0 17px;
   margin: 0;
   min-width: 0;
+  text-align: center;
 }
 
 .searchForm {
@@ -59,7 +60,7 @@ button.animated-button:before {
 
 .userInput {
   width:100%;
-  padding-right:15px;
+
 }
 
 .searchBar {
@@ -71,8 +72,41 @@ button.animated-button:before {
   font-size: 15px;
   font-weight: 400;
   color: #A5A5A5;
-  /* padding-left: 12px; */
   outline: none;
+  padding: 0 12px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  background-image: url("./images/MagGlass.svg");
+  background-position: 98% 50%;
+  background-repeat: no-repeat;
+  background-size: 18px;
+}
+
+.mainButton {
+  background: none;
+  padding: 4px 8px;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid #474747;
+  background-color: #8E8E8E;
+  border-radius: 3px;
+  font-family: 'Montserrat', sans-serif;  
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -.04em;
+}
+
+.buttonContainer {
+  display: inline-block;
+}
+
+.vertLine {
+  display: inline-block;
+  border-left: 3px solid #0084CE;
+  height: 31px;
+  vertical-align: -11px;
+  margin: 0 10px;
 }
 
 .resultsFieldset {
@@ -105,8 +139,7 @@ button.animated-button:before {
 }
 
 #map {
-  margin: 10px auto;
-  width: 95%;
+  margin: 10px 17px;
   height: 500px;
 }
 

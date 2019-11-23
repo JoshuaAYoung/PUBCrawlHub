@@ -13,7 +13,7 @@
     <link rel="stylesheet"
         href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
         type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900|Roboto:300,400,700,900&display=swap"
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,900|Roboto:300,400,700,900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="normalize.css">
     <link rel="stylesheet" href="./main.css">
@@ -28,7 +28,7 @@
         </div>
     </header>
     <main>
-        <div class="userInput">
+        <div class="formContainer">
             <form class="searchForm">
                 <fieldset class="searchFieldset">
                     <div class="userInput">
@@ -43,12 +43,10 @@
                             <input type="number" id="resultsNumber" name="resultsNumber" placeholder="Number of results..." class="searchBar">
                         </div>
                     </div>
-                    <div class="userInput">
+                    <div class="buttonContainer">
                         <button class="mainButton" type="submit" id="submitButton">Find Breweries</button>
-                    </div>
                     <div class="vertLine">
                     </div>
-                    <div class="userInput">
                         <button class="mainButton" name="advSearch" id="advSearchToggle">Search Options</button>
                     </div>
                 </fieldset>
