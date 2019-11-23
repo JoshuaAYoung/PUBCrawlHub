@@ -1,5 +1,4 @@
 body {
-  padding: 0 15px;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
   overflow-x: hidden;
@@ -49,7 +48,7 @@ button.animated-button:before {
 
 .searchFieldset {
   border: 0;
-  padding: 0;
+  padding: 0 15px;
   margin: 0;
   min-width: 0;
 }
@@ -58,8 +57,9 @@ button.animated-button:before {
   width: 100%;
 }
 
-#mainSearch {
-  margin: 0;
+.userInput {
+  width:100%;
+  padding-right:15px;
 }
 
 .searchBar {
@@ -68,6 +68,11 @@ button.animated-button:before {
   border: 1px solid #515150;
   border-radius: 3px;
   background-color: #343434;
+  font-size: 15px;
+  font-weight: 400;
+  color: #A5A5A5;
+  /* padding-left: 12px; */
+  outline: none;
 }
 
 .resultsFieldset {
