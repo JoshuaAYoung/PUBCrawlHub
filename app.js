@@ -111,7 +111,7 @@ const STORE = {
 function generateCopyright() {
   let d = new Date();
   let year = d.getFullYear();
-  $(".copyright").html(`Copyright © ${year}`)
+  $(".copyright").html(`Copyright &copy; ${year}`)
 }
 
 // sortable jquery code
@@ -363,6 +363,5 @@ $(function () {
   slideOutADVSearch();
   watchUserList();
   toggleDirections();
-  clearMarkers();
   generateCopyright();
 })

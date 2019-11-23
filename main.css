@@ -349,4 +349,7 @@ hr {
     padding: 5px;
     margin: 0 auto;
   }
+  .mapBreak {
+    display: none;
+  }
 }
