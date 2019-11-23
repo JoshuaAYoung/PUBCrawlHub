@@ -131,7 +131,6 @@ function fillBrewList() {
     });
     STORE.brewList.push(STORE.brewResults[resultIndex]);
   })
-  console.log("Brew List is Full Up!")
 }
 
 // mapbox url
@@ -150,7 +149,6 @@ function convertAbbrev(input) {
 function buttonScroll() {
   let mybutton = document.getElementById("scrollMap");
   window.onscroll = function() {scrollFunction()};
-  console.log($(document).height())
   function scrollFunction() {
       if (document.body.scrollTop > ($(document).height() - 1200) || document.documentElement.scrollTop > ($(document).height() - 1200)) {
           mybutton.style.display = "none";
