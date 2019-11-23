@@ -182,7 +182,7 @@ function getBarsFromOB(cityQ, stateQ, limitQ=20) {
     if(geocodedResults.length !== responseJson.length) {
       missingResults = true;
     }
-    determineView(STORE.state, geocodedResults, missingResults);
+    determineView(STORE.state, STORE.brewResults, missingResults);
   })
   .catch(err => {
     STORE.state = "BAD RESULTS";
