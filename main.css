@@ -1,21 +1,12 @@
 body {
   padding: 0 10px;
-  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  overflow-x: hidden;
 }
 
-button a {
-  text-decoration: none;
-}
 
-button a:hover {
-  color: #fff;
-}
-
-a:visited {
-  color: black;
-}
-
-button.animated-button {
+/* button.animated-button {
   color: black;
   cursor: pointer;
   display: inline-block;
@@ -48,6 +39,14 @@ button.animated-button:before {
   color: #fff !important;
   background: rgb(0, 70, 128);
   transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+} */
+
+.mapHeader {
+  display: none;
+}
+
+.resultsHeader {
+  display: none;
 }
 
 .alert {
@@ -57,48 +56,6 @@ button.animated-button:before {
   border-radius: 5px;
   text-align: center;
   margin: 10px auto;
-}
-
-ul {
-  padding-inline-start: 0;
-}
-
-li {
-  list-style: none;
-  border: 1px solid grey;
-  margin: 5px;
-  padding: 5px;
-}
-
-li a {
-  color: rgb(0, 70, 128);
-  text-decoration: none;
-}
-
-li a:hover {
-  text-decoration: underline;
-}
-
-li a:visited {
-  color: rgb(0, 70, 128);
-}
-
-.advSearchOptions {
-  display: none;
-}
-
-.userInput {
-  margin: 10px 0;
-}
-
-.userInput input {
-  float: right;
-  border-radius: 5px;
-  width: 30%;
-}
-
-#advSearchToggle {
-  text-transform: uppercase;
 }
 
 .listSubmit {
@@ -120,21 +77,9 @@ li a:visited {
   cursor: pointer; 
 }
 
-footer {
-  margin: 0 auto;
-  text-align: center;
-}
-
-.orderNumber {
-  font-weight: bold;
-  font-size: 2em;
-  display:inline-block;
-  margin-right: 20px;
-  vertical-align: center;
-}
-
 .barContainer {
   display:inline-block;
+}
 
 footer a {
   color: rgb(0, 70, 128);
@@ -148,4 +93,23 @@ footer a:hover {
 
 footer a:visited {
   color: rgb(0, 70, 128);
+}
+
+#scrollMap {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  display: none;
+  position: fixed;
+  bottom: 40px;
+  right: 0px;
+  z-index: 99;
+  font-size: 40px;
+  border: none;
+  outline: none;
+  background-color: #818282;
+  color: white;
+  cursor: pointer;
+  padding: 12px 15px 12px;
+  opacity: .6;
+  line-height: 30px;
 }

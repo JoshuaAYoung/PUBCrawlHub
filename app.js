@@ -146,7 +146,25 @@ function convertAbbrev(input) {
   }
 }
 
-// DATA HANDLERS
+function buttonScroll() {
+  let mybutton = document.getElementById("scrollMap");
+  window.onscroll = function() {scrollFunction()};
+  console.log($(document).height())
+  function scrollFunction() {
+      if (document.body.scrollTop > ($(document).height() - 1200) || document.documentElement.scrollTop > ($(document).height() - 1200)) {
+          mybutton.style.display = "none";
+      } else {
+          mybutton.style.display = "block";
+      }
+  }
+}
+
+function topFunction() {
+  document.body.scrollTop = $(window).scrollTop() + $(window).height();
+  document.documentElement.scrollTop = $(window).scrollTop() + $(window).height();
+}
+/////// DATA HANDLERS ///////
+
 function formatQuery(parameters) {
   //takes parameter keys and makes an array out of them
   const queryItems = Object.keys(parameters)
@@ -201,10 +219,11 @@ function watchForm() {
     $(".listSubmit").show();
     let cityInput = $(this).find('input[name="mainSearch"]').val();
     let stateInput = convertAbbrev($(this).find('input[name="stateSearch"]').val());
-    // let zipcodeInput = $(this).find('input[name="zipSearch"]').val();
     let limitInput = $(this).find('input[name="resultsNumber"]').val();
-    // let radiusInput = $(this).find('input[name="proximitySearch"]').val();
     getBarsFromOB(cityInput, stateInput, limitInput);
+    buttonScroll();
+    $(".mapHeader").show();
+    $(".resultsHeader").show();
   })
 }
 
@@ -251,7 +270,6 @@ function watchUserList() {
   $('.resultsForm').on('submit', function(event) {
     event.preventDefault();
     fillBrewList();
-
   })
 }
 
@@ -266,7 +284,7 @@ function clearMarkers() {
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function(event) {
     event.preventDefault();
-    $(this).parent().remove();
+    $(this).parent().parent().remove();
     orderNumber();
     fillBrewList();
     passToMap();
@@ -285,6 +303,12 @@ function determineView(state, res, missingResults) {
   }
 }
 
+function mapText() {
+  return `<hr class="sectionBreak"></hr>
+    <h2 class="headerText">Map</h2>
+    <p class="instructions">For directions, click anywhere on the map to set a starting point followed by your desired destination.</p>`
+}
+
 //generate the results html for happy result
 function buildResultsView(res, missingResults=false) {
   const bars = res;
@@ -292,8 +316,7 @@ function buildResultsView(res, missingResults=false) {
   $('.map').html('');
   let resultView = [];
   for(let i = 0; i < bars.length; i++) {
-    resultView.push(`
-      <li class="barCardItem" id=List${i+1}>
+    resultView.push(`<li class="barCardItem" id=List${i+1}>
       <div class="orderNumber">${i + 1}
       </div>
       <div class="barContainer">
@@ -303,18 +326,18 @@ function buildResultsView(res, missingResults=false) {
       <p class="barAddress">${bars[i].street}</p>
       <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
       <p class="barPhone">${bars[i].phone}</p>
-      <button class="animated-button" type="button" id="removeButton" class="removeButton">X</button>
-      </li>
-      `);
+      <button type="button" id="removeButton" class="removeButton">X</button>
+      </li>`);
   }
-  resultView.join('');
+  resultView.join();
   if(missingResults) {
     $('.resultsList').html(`<div class="alert">
-      Some results were removed do to missing location information.
+      Some results were removed due to missing location information.
     </div>
     ${resultView}`);
-  } else {
-    $('.resultsList').html(resultsView);
+  }
+  else {
+    $('.resultsList').html(resultView);
   }
   removeBar();
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];

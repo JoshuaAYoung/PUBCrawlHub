@@ -11,84 +11,87 @@
     <!-- MAPBOX -->
     <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css" rel="stylesheet" />
     <link rel="stylesheet"
-    href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
-    type="text/css" />
-    <!-- GOOGLE FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
-
+        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
+        type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,900|Roboto:300,400,700,900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="normalize.css">
     <link rel="stylesheet" href="./main.css">
-    <!-- <link rel="icon" type="image/png" href="./images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="./images/favicon-16x16.png" sizes="16x16" /> -->
+    <link rel="icon" type="image/png" href="./images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="./images/favicon-16x16.png" sizes="16x16" />
 </head>
 
 <body>
     <header>
         <div class="logo">
-            <!-- <a href="index.html"><img src="./images/logo.jpg" alt="PUBCrawlHUB logo" class="mainLogo"></a> -->
-        <h1>PUBcrawlHUB</h1>
+            <a href="index.html"><img src="./images/pchlogoandtitle.svg" alt="PUBCrawlHUB logo" class="mainLogo"></a>
         </div>
     </header>
     <main>
         <div class="userInput">
             <form class="searchForm">
                 <fieldset>
-                    <legend class="formLegend">PUBcrawlHUB Search</legend>
                     <div class="userInput">
-                        <label class="searchLocation" for="mainSearch">City:</label>
-                        <input type="text" id="mainSearch" name="mainSearch">
+                        <input type="text" id="mainSearch" name="mainSearch"
+                            placeholder="Enter a city to start finding breweries...">
                     </div>
                     <div class="advSearchOptions">
                         <div class="userInput">
-                            <label for="stateSearch">State:</label>
-                            <input type="text" name="stateSearch" id="stateSearch">
+                            <input type="text" name="stateSearch" id="stateSearch" placeholder="State...">
                         </div>
-                        <!-- <div class="userInput">
-                            <label for="zipSearch">Zipcode:</label>
-                            <input type="text" name="zipSearch" id="zipSearch">
-                        </div> -->
                         <div class="userInput">
-                            <label class="searchLimit" for="resultsNumber">Number of results:</label>
-                            <input type="number" id="resultsNumber" name="resultsNumber">
+                            <input type="number" id="resultsNumber" name="resultsNumber"
+                                placeholder="Number of results...">
                         </div>
-                        <!-- <div class="userInput">
-                            <label class="advSearchOption searchRadius" for="proximitySearch">Radius in
-                                miles:</label>
-                            <input class="advSearchOption" type="text" id="proximitySearch" name="proximitySearch">
-                        </div> -->
                     </div>
                     <div class="userInput">
-                        <button class="animated-button" type="submit" id="submitButton">GET BREWERIES</button>
+                        <button class="mainButton" type="submit" id="submitButton">Find Breweries</button>
+                    </div>
+                    <div class="vertLine">
                     </div>
                     <div class="userInput">
-                        <button class="animated-button" name="advSearch" id="advSearchToggle">SEARCH OPTIONS</button>
+                        <button class="mainButton" name="advSearch" id="advSearchToggle">Search Options</button>
                     </div>
-                    <button class="animated-button"><a href="#map">GO TO MAP</a></button>
                 </fieldset>
             </form>
         </div>
+        <section class="resultsHeader">
+            <hr class="sectionBreak">
+            </hr>
+            <h2 class="headerText">Results</h2>
+            <p class="instructions">Drag breweries into the order you’d like to visit them, starting with your first
+                destination.</p>
+        </section>
         <section class="results">
             <form class="resultsForm">
                 <fieldset>
                     <ul class="resultsList">
                     </ul>
-                    <button class="animated-button" type="submit" id="listSubmit">ADD MARKERS TO MAP</button>
-                    <button class="animated-button" id="clearMarkers">CLEAR MARKERS</button>
-                    <button class="animated-button" id="addDirections">SHOW DIRECTIONS</button>
-                    <button class="animated-button" id="removeDirections">HIDE DIRECTIONS</button>
                 </fieldset>
             </form>
+            <button onclick="topFunction()" id="scrollMap" title="Go to map">^</button>
         </section>
 
         <section class="mapData">
+            <section class="mapHeader">
+                <hr class="sectionBreak">
+                </hr>
+                <h2 class="headerText">Map</h2>
+                <p class="instructions">For directions, click anywhere on the map to set a starting point followed by
+                    your desired destination.</p>
+            </section>
             <div id="map">
-
             </div>
+            <div class="mapButtons">
+                <button class="mapButton" id="addDirections">Show Directions</button>
+                <button class="mapButton" id="removeDirections">Hide Directions</button>
+            </div>
+            <p>Powered by <span class="boldAtr"><a href="https://www.openbrewerydb.org/">Open Brewery DB</a></span> and
+                <span class="boldAtr"><a href="https://www.mapbox.com/">Mapbox</a></p></span>
         </section>
     </main>
     <footer>
-        <p>Powered by <a href="https://www.openbrewerydb.org/">Open Brewery DB</a> and <a
-                href="https://www.mapbox.com/">Mapbox</a></p>
+        <p class="copyright"></p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
