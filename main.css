@@ -268,7 +268,6 @@ hr {
   z-index: 100;
 }
 
-
 .marker { 
   background-image: url('https://www.mapbox.com/mapbox.js/assets/images/astronaut2.png'); 
   background-size: cover; 
@@ -357,5 +356,8 @@ hr {
     width: 49%;
     padding: 5px;
     margin: 0 auto;
+  }
+  .mapBreak {
+    display: none;
   }
 }

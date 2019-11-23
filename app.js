@@ -111,7 +111,7 @@ const STORE = {
 function generateCopyright() {
   let d = new Date();
   let year = d.getFullYear();
-  $(".copyright").html(`Copyright © ${year}`)
+  $(".copyright").html(`Copyright &copy; ${year}`)
 }
 
 // sortable jquery code
@@ -264,6 +264,7 @@ function passToMap() {
   STORE.brewList.forEach(bar => {
     otherBars.push([bar.longitude, bar.latitude, bar.name]);
   });
+  STORE.removeMarkers();
   STORE.recenter(startBar);
   STORE.addMarker(otherBars);
 }
@@ -273,13 +274,6 @@ function watchUserList() {
   $('.resultsForm').on('submit', function (event) {
     event.preventDefault();
     fillBrewList();
-  })
-}
-
-function clearMarkers() {
-  $('#clearMarkers').on('click', e => {
-    e.preventDefault();
-    STORE.removeMarkers();
   })
 }
 
@@ -370,6 +364,5 @@ $(function () {
   slideOutADVSearch();
   watchUserList();
   toggleDirections();
-  clearMarkers();
   generateCopyright();
 })
