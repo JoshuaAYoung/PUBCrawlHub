@@ -199,6 +199,8 @@ function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
       throw new Error(response.statusText)
     })
     .then(responseJson => {
+      // Because open brewery DB doesn't have geo data for all bars
+      // This filters results without
       let geocodedResults = filterResultsWithoutLatLon(responseJson);
       STORE.brewResults = geocodedResults;
       let missingResults = false;
@@ -246,16 +248,6 @@ function toggleDirections() {
     }
   })
 }
-
-// function removeDirections() {
-//   $('#removeDirections').on('click', e => {
-//     e.preventDefault();
-//     if (STORE.nav !== false) {
-//       STORE.removeNav();
-//       STORE.nav = false;
-//     }
-//   });
-// }
 
 function slideOutADVSearch() {
   $('.searchForm').on('click', '#advSearchToggle', function (e) {
@@ -340,7 +332,6 @@ function buildResultsView(missingResults = false) {
       </li>`);
   }
   if (missingResults) {
-    // TODO - fade this out after timeout
     $('.resultsList').html(`<div class="alert"><span class="warning">Warning:</span> Some results were removed due to missing location information from the OpenBrewery database.</div>
     ${resultView.join('')}`);
     setTimeout(function() {
