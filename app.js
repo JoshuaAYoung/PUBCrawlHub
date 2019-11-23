@@ -132,12 +132,11 @@ function fillBrewList() {
   STORE.brewList = [];
   $(".resultsList li").each(function () {
     let resultIndex = STORE.brewResults.findIndex(arrayItem => {
-      return arrayItem.name === decodeURI($(this).find(".barName").html());
+      return arrayItem.name === $.parseHTML($(this).find(".barName").html())[0].textContent;
     });
     console.log(decodeURI($(this).find(".barName").innerHTML));
     STORE.brewList.push(STORE.brewResults[resultIndex]);
   })
-  console.log("Brew List is Full Up!")
 }
 
 // mapbox url
@@ -156,7 +155,6 @@ function convertAbbrev(input) {
 function buttonScroll() {
   let mybutton = document.getElementById("scrollMap");
   window.onscroll = function() {scrollFunction()};
-  console.log($(document).height())
   function scrollFunction() {
       if (document.body.scrollTop > ($(document).height() - 1200) || document.documentElement.scrollTop > ($(document).height() - 1200)) {
           mybutton.style.display = "none";
@@ -304,7 +302,7 @@ function determineView(state, res, missingResults) {
   if (state === 'MAIN') {
     return buildMainView();
   } else if (state === 'RESULTS') {
-    return buildResultsView(res, missingResults);
+    return buildResultsView(missingResults);
   } else if (state === 'BAD RESULT') {
     return buildBadResults(res);
   }
@@ -317,8 +315,8 @@ function mapText() {
 }
 
 //generate the results html for happy result
-function buildResultsView(res, missingResults = false) {
-  const bars = res;
+function buildResultsView(missingResults = false) {
+  const bars = STORE.brewResults;
   $('.resultsList').html('');
   $('.map').html('');
   let resultView = [];
@@ -337,16 +335,15 @@ function buildResultsView(res, missingResults = false) {
       <button type="button" id="removeButton" class="removeButton">X</button>
       </li>`);
   }
-  resultView.join('');
   if (missingResults) {
     // TODO - fade this out after timeout
     $('.resultsList').html(`<div class="alert">
       Some results were removed due to missing location information.
     </div>
-    ${resultView}`);
+    ${resultView.join('')}`);
   }
   else {
-    $('.resultsList').html(resultView);
+    $('.resultsList').html(resultView.join(''));
   }
   removeBar();
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
