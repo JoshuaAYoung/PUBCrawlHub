@@ -334,6 +334,9 @@ function buildResultsView(missingResults = false) {
       Some results were removed due to missing location information.
     </div>
     ${resultView.join('')}`);
+    setTimeout(function() {
+      $('.alert').fadeOut();
+    }, 4000);
   }
   else {
     $('.resultsList').html(resultView.join(''));
