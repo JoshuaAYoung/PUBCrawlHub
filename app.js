@@ -127,7 +127,7 @@ function fillBrewList() {
   STORE.brewList = [];
   $(".resultsList li").each(function () {
     let resultIndex = STORE.brewResults.findIndex(arrayItem => {
-      return arrayItem.name === $(this).find(".barName").html();
+      return arrayItem.name === $.parseHTML($(this).find(".barName").html())[0].textContent;
     });
     STORE.brewList.push(STORE.brewResults[resultIndex]);
   })
