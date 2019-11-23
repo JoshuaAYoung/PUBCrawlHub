@@ -25,14 +25,15 @@ const STORE = {
     STORE.map.removeControl(this.directions);
   },
   nav: null,
-  addMarker: function(coordArr) {
-    for(let i = 0; i < coordArr.length; i++) {
+  addMarker: function(barArr) {
+    for(let i = 0; i < barArr.length; i++) {
       // create a HTML element for each feature
       let el = document.createElement('div');
       el.className = 'marker';
     // make a marker for each bar and add to the map
       new mapboxgl.Marker(el)
-        .setLngLat([parseFloat(coordArr[i][0]), parseFloat(coordArr[i][1])])
+        .setLngLat([parseFloat(barArr[i][0]), parseFloat(barArr[i][1])])
+        .setPopup(new mapboxgl.Popup().setText(`${barArr[i][2]}`))
         .addTo(STORE.map);
     }
   },
@@ -240,7 +241,7 @@ function passToMap () {
   let startBar = [STORE.brewList[0].longitude, STORE.brewList[0].latitude];
   let otherBars = [];
   STORE.brewList.forEach(bar => {
-    otherBars.push([bar.longitude, bar.latitude]);
+    otherBars.push([bar.longitude, bar.latitude, bar.name]);
   });
   STORE.recenter(startBar);
   STORE.addMarker(otherBars);
@@ -272,7 +273,6 @@ function removeBar() {
     passToMap();
   })
 };
-
 
 /////// VIEW HANDLERS ///////
 function determineView(state, res, missingResults) {
@@ -307,7 +307,6 @@ function buildResultsView(res, missingResults=false) {
       </li>
       `);
   }
-  // TODO - get rid of comma between li's
   resultView.join('');
   if(missingResults) {
     // TODO - fade this out after timeout
@@ -326,7 +325,7 @@ function buildResultsView(res, missingResults=false) {
   STORE.recenter(mapCenter);
   let initialBars = [];
   STORE.brewResults.forEach(bar => {
-    initialBars.push([bar.longitude, bar.latitude]);
+    initialBars.push([bar.longitude, bar.latitude, bar.name]);
   });
   STORE.addMarker(initialBars);
 }
