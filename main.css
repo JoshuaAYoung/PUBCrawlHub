@@ -108,7 +108,7 @@ fieldset {
   margin: 0 10px;
 }
 
-.resultsFieldset {
+.results {
   display: none;
 }
 
@@ -117,10 +117,6 @@ fieldset {
 }
 
 .mapHeader {
-  display: none;
-}
-
-.resultsHeader {
   display: none;
 }
 
@@ -351,5 +347,6 @@ hr {
     order: 2;
     width: 49%;
     padding: 5px;
+    margin: 0 auto;
   }
 }

@@ -231,7 +231,7 @@ function watchForm() {
     buttonScroll();
     $(".mapHeader").show();
     $(".resultsHeader").show();
-    $(".resultsFieldset").show();
+    $(".results").show();
   })
 }
 
