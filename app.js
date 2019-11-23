@@ -201,13 +201,18 @@ function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
     .then(responseJson => {
       // Because open brewery DB doesn't have geo data for all bars
       // This filters results without
-      let geocodedResults = filterResultsWithoutLatLon(responseJson);
-      STORE.brewResults = geocodedResults;
-      let missingResults = false;
-      if (geocodedResults.length !== responseJson.length) {
-        missingResults = true;
+      if(responseJson.length === 0) {
+        STORE.state = "NO RESULTS";
+        determineView(STORE.state)
+      } else {
+        let geocodedResults = filterResultsWithoutLatLon(responseJson);
+        STORE.brewResults = geocodedResults;
+        let missingResults = false;
+        if (geocodedResults.length !== responseJson.length) {
+          missingResults = true;
+        }
+        determineView(STORE.state, STORE.brewResults, missingResults);
       }
-      determineView(STORE.state, STORE.brewResults, missingResults);
     })
     .catch(err => {
       STORE.state = "BAD RESULTS";
@@ -293,6 +298,8 @@ function determineView(state, res, missingResults) {
     return buildMainView();
   } else if (state === 'RESULTS') {
     return buildResultsView(missingResults);
+  } else if (state === 'NO RESULTS') {
+    return buildNoResults();
   } else if (state === 'BAD RESULT') {
     return buildBadResults(res);
   }
@@ -348,6 +355,16 @@ function buildResultsView(missingResults = false) {
   STORE.addMarker(initialBars);
 }
 
+function buildNoResults() {
+  $('.resultsList').html();
+  STORE.removeMarkers();
+  $('.resultsList').html(`<div class="alert">
+    <span class="warning">Sorry:</span> Your search didn't find any results. Please try again.
+  </div>`);
+    setTimeout(function() {
+      $('.alert').fadeOut();
+    }, 5000);
+}
 //generate html for unhappy result
 function buildBadResults(res) {
   $('.resultsList').html('');
