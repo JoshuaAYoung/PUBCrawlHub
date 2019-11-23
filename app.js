@@ -105,6 +105,12 @@ const STORE = {
 
 /////// RANDOM ///////
 
+function generateCopyright() {
+  let d = new Date();
+  let year = d.getFullYear();
+  $(".copyright").html(`Copyright © ${year} <br> <span class="name">Michael Ploughman</span> & <span class="name">Josh Young</span>`)
+}
+
 // sortable jquery code
 $(".resultsList").sortable({
   stop: function (event, ui) {
@@ -122,13 +128,13 @@ function orderNumber() {
   })
 }
 
-
 function fillBrewList() {
   STORE.brewList = [];
   $(".resultsList li").each(function () {
     let resultIndex = STORE.brewResults.findIndex(arrayItem => {
-      return arrayItem.name === $(this).find(".barName").html();
+      return arrayItem.name === decodeURI($(this).find(".barName").html());
     });
+    console.log(decodeURI($(this).find(".barName").innerHTML));
     STORE.brewList.push(STORE.brewResults[resultIndex]);
   })
   console.log("Brew List is Full Up!")
@@ -225,6 +231,7 @@ function watchForm() {
     buttonScroll();
     $(".mapHeader").show();
     $(".resultsHeader").show();
+    $(".resultsFieldset").show();
   })
 }
 
@@ -371,4 +378,5 @@ $(function () {
   removeDirections();
   addDirections();
   clearMarkers();
+  generateCopyright();
 })

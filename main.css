@@ -1,8 +1,9 @@
 body {
-  padding: 0 10px;
+  padding: 0 15px;
   box-sizing: border-box;
   font-family: 'Roboto', sans-serif;
   overflow-x: hidden;
+  background-color: #1B1B1B;
 }
 
 
@@ -40,6 +41,42 @@ button.animated-button:before {
   background: rgb(0, 70, 128);
   transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 } */
+.mainLogo {
+  width: 210px;
+  margin: 100px auto 40px;
+  display: block;
+}
+
+.searchFieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.searchForm {
+  width: 100%;
+}
+
+#mainSearch {
+  margin: 0;
+}
+
+.searchBar {
+  width: 100%;
+  height: 37px;
+  border: 1px solid #515150;
+  border-radius: 3px;
+  background-color: #343434;
+}
+
+.resultsFieldset {
+  display: none;
+}
+
+.advSearchOptions {
+  display: none;
+}
 
 .mapHeader {
   display: none;
