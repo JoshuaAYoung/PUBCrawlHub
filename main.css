@@ -5,6 +5,11 @@ body {
   background-color: #1B1B1B;
 }
 
+fieldset {
+  padding: 0;
+  border: 0;
+}
+
 
 /* button.animated-button {
   color: black;
@@ -119,7 +124,7 @@ button.animated-button:before {
 
 .vertLine {
   display: inline-block;
-  border-left: 3px solid #0084CE;
+  border-left: 2px solid #0084CE;
   height: 31px;
   vertical-align: -11px;
   margin: 0 10px;
@@ -141,14 +146,7 @@ button.animated-button:before {
   display: none;
 }
 
-.alert {
-  border: 2px solid rgba(253, 0, 0, 0.5);
-  background-color: rgba(255, 180, 180, 0.8);
-  padding: 5px;
-  border-radius: 5px;
-  text-align: center;
-  margin: 10px auto;
-}
+
 
 .listSubmit {
   display: none;
@@ -159,6 +157,112 @@ button.animated-button:before {
   height: 500px;
 }
 
+hr {
+  height: 1px;
+  border: 0;
+  background-color: #8E8E8E;
+  margin: 25px 25px 0;
+}
+
+.headerText {
+  margin: 20px 0 0;
+  font-family: 'Montserrat', sans-serif;  
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -.04em;
+  color: #0084CE;
+  text-align: center;
+  text-decoration: underline;
+}
+
+.instructions {
+  font-size: 14px;
+  font-weight: 300;
+  color: #C0C1BF;
+  text-align: center;
+  margin: 5px 28px 0px;
+
+}
+
+.alert {
+  border: 2px solid rgba(253, 0, 0, 0.5);
+  background-color: rgba(255, 180, 180, 0.8);
+  padding: 5px;
+  border-radius: 5px;
+  text-align: center;
+  margin: 20px auto;
+  font-size: 14px;
+}
+
+.warning {
+  font-weight: bold;
+}
+
+.resultsList {
+  padding: 0;
+  margin: 0 15px;
+}
+
+.barCardItem {
+  list-style-type: none;
+  margin: 23px 13px 0;
+  background-color: rgba(192, 193, 191, .94);
+  border-radius: 7px;
+  padding: 13px;
+  position: relative;
+}
+
+.orderNumber {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 100px;
+  font-weight: 700;
+  letter-spacing: -.04em;
+  position: absolute;
+  color: white;
+  left: 50%;
+  z-index: -1;
+  width: 200px;
+  margin-left: -100px;
+  text-align: center;
+  top: 50%;
+  height: 150px;
+  margin-top: -75px;
+}
+
+.barContainer {
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.barTitle {
+  margin: 0 0 3px;
+}
+.barName {
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: underline;
+  color: black;
+  font-family: 'Montserrat', sans-serif; 
+  margin: 0;
+  letter-spacing: -.03em;
+}
+
+.barInfo {
+  font-size: 14px;
+  font-weight: 300;
+  margin: 0;
+}
+
+#removeButton {
+  background-color: none;
+  position: absolute;
+  border: 1px solid #343434;
+  color: #343434;
+  font-family: 'Montserrat', sans-serif; 
+  font-size: 18px;
+  font-weight: 600;
+}
+
 .marker { 
   background-image: url('https://www.mapbox.com/mapbox.js/assets/images/astronaut2.png'); 
   background-size: cover; 
@@ -166,10 +270,6 @@ button.animated-button:before {
   height: 25px; 
   border-radius: 50%; 
   cursor: pointer; 
-}
-
-.barContainer {
-  display:inline-block;
 }
 
 footer a {

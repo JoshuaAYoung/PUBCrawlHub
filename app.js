@@ -165,8 +165,8 @@ function buttonScroll() {
 }
 
 function topFunction() {
-  document.body.scrollTop = $(window).scrollTop() + $(window).height();
-  document.documentElement.scrollTop = $(window).scrollTop() + $(window).height();
+  document.body.scrollTop = $(window).height();
+  document.documentElement.scrollTop = $(window).height();
 }
 /////// DATA HANDLERS ///////
 
@@ -329,17 +329,15 @@ function buildResultsView(missingResults = false) {
       <h3 class="barTitle barLink">
         <a href="${bars[i].website_url}" class="barName" target="_blank">${bars[i].name}</a>
       </h3>
-      <p class="barAddress">${bars[i].street}</p>
-      <p class="barAddress">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
-      <p class="barPhone">${bars[i].phone}</p>
+      <p class="barAddress barInfo">${bars[i].street}</p>
+      <p class="barAddress barInfo">${bars[i].city}, ${bars[i].state}, ${bars[i].postal_code}</p>
+      <p class="barPhone barInfo">${bars[i].phone}</p>
       <button type="button" id="removeButton" class="removeButton">X</button>
       </li>`);
   }
   if (missingResults) {
     // TODO - fade this out after timeout
-    $('.resultsList').html(`<div class="alert">
-      Some results were removed due to missing location information.
-    </div>
+    $('.resultsList').html(`<div class="alert"><span class="warning">Warning:</span> Some results were removed due to missing location information from the OpenBrewery database.</div>
     ${resultView.join('')}`);
   }
   else {
