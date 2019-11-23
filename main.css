@@ -313,8 +313,11 @@ footer a:visited {
 #scrollMap a:visited {
   color: white;
 }
-
 @media only screen and (min-device-width : 420px) {
+  
+}
+
+@media only screen and (min-device-width : 550px) {
   .container {
     display: flex;
     flex-direction: row;
@@ -324,19 +327,11 @@ footer a:visited {
   }
   .results {
     order: 1;
-    width: 50%;
+    width: 49%;
   }
   .mapData {
     order: 2;
-    width: 50%;
-  }
-  #map {
-    box-sizing: border-box;
-    width: 100%;
-  }
-  #map canvas {
-    box-sizing: border-box;
-    width: 100%;
-    margin: 10px 10px;
+    width: 49%;
+    padding: 5px;
   }
 }
