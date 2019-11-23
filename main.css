@@ -323,9 +323,11 @@ footer a:visited {
   }
   .results {
     order: 1;
+    width: 50%;
   }
   .mapData {
     order: 2;
+    width: 50%;
   }
   #map {
     box-sizing: border-box;
