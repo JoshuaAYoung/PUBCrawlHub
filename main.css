@@ -10,7 +10,6 @@ fieldset {
   border: 0;
 }
 
-
 /* button.animated-button {
   color: black;
   cursor: pointer;
@@ -45,6 +44,7 @@ button.animated-button:before {
   background: rgb(0, 70, 128);
   transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 } */
+
 .mainLogo {
   width: 210px;
   margin: 100px auto 40px;
@@ -304,4 +304,37 @@ footer a:visited {
   padding: 12px 15px 12px;
   opacity: .6;
   line-height: 30px;
+}
+
+#scrollMap a {
+  text-decoration: none;
+}
+
+#scrollMap a:visited {
+  color: white;
+}
+
+@media only screen and (min-device-width : 420px) {
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+  #scrollMap {
+    display: none;
+  }
+  .results {
+    order: 1;
+  }
+  .mapData {
+    order: 2;
+  }
+  #map {
+    box-sizing: border-box;
+    width: 100%;
+  }
+  #map canvas {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 10px 10px;
+  }
 }

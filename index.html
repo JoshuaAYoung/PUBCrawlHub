@@ -58,31 +58,33 @@
             <p class="instructions">Drag breweries into the order you’d like to visit them, starting with your first
                 destination.</p>
         </section>
-        <section class="results">
-            <form class="resultsForm">
-                <fieldset class="resultsFieldset">
-                    <ul class="resultsList">
-                    </ul>
-                </fieldset>
-            </form>
-            <button onclick="topFunction()" id="scrollMap" title="Go to map">^</button>
-        </section>
-
-        <section class="mapData">
-            <section class="mapHeader">
-                <hr class="sectionBreak">
-                <h2 class="headerText">Map</h2>
-                <p class="instructions">For directions, click anywhere on the map to set a starting point followed by
-                    your desired destination.</p>
+        <div class="container">
+            <section class="results">
+                <form class="resultsForm">
+                    <fieldset class="resultsFieldset">
+                        <ul class="resultsList">
+                        </ul>
+                    </fieldset>
+                </form>
+                <button id="scrollMap" title="Go to map"><a href="#map">^</a></button>
             </section>
-            <div id="map">
-            </div>
-            <div class="mapButtons">
-                <button class="mapButton" id="toggleDirections">Toggle Directions</button>
-            </div>
-            <p>Powered by <span class="boldAtr"><a href="https://www.openbrewerydb.org/">Open Brewery DB</a></span> and
-                <span class="boldAtr"><a href="https://www.mapbox.com/">Mapbox</a></span></p>
-        </section>
+
+            <section class="mapData">
+                <section class="mapHeader">
+                    <hr class="sectionBreak">
+                    <h2 class="headerText">Map</h2>
+                    <p class="instructions">For directions, click anywhere on the map to set a starting point followed by
+                        your desired destination.</p>
+                </section>
+                <div id="map">
+                </div>
+                <div class="mapButtons">
+                    <button class="mapButton" id="toggleDirections">Toggle Directions</button>
+                </div>
+                <p>Powered by <span class="boldAtr"><a href="https://www.openbrewerydb.org/">Open Brewery DB</a></span> and
+                    <span class="boldAtr"><a href="https://www.mapbox.com/">Mapbox</a></span></p>
+            </section>
+        </div>
     </main>
     <footer>
         <p class="copyright">Copyright &copy; 2019</p>
