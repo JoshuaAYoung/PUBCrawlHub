@@ -84,18 +84,34 @@ button.animated-button:before {
 
 .mainButton {
   background: none;
-  padding: 4px 8px;
+  padding: 6px 8px;
   border: 0;
   cursor: pointer;
   outline: none;
   border: 2px solid #474747;
   background-color: #8E8E8E;
-  border-radius: 3px;
+  border-radius: 5px;
   font-family: 'Montserrat', sans-serif;  
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -.04em;
 }
+
+.mapButton {
+  background: none;
+  padding: 6px 8px;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+  border: 2px solid #474747;
+  background-color: #8E8E8E;
+  border-radius: 5px;
+  font-family: 'Montserrat', sans-serif;  
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -.04em;
+}
+
 
 .buttonContainer {
   display: inline-block;
