@@ -14,92 +14,92 @@ const STORE = {
     center: [-104.991531, 39.742043],
     zoom: 11,
   }),
-  directions : new MapboxDirections({
+  directions: new MapboxDirections({
     accessToken: mapboxgl.accessToken,
     profile: 'mapbox/walking',
   }),
-  addNav: function() {
+  addNav: function () {
     STORE.map.addControl(this.directions);
   },
-  removeNav: function() {
+  removeNav: function () {
     STORE.map.removeControl(this.directions);
   },
   nav: null,
-  addMarker: function(barArr) {
-    for(let i = 0; i < barArr.length; i++) {
+  addMarker: function (barArr) {
+    for (let i = 0; i < barArr.length; i++) {
       // create a HTML element for each feature
       let el = document.createElement('div');
       el.className = 'marker';
-    // make a marker for each bar and add to the map
+      // make a marker for each bar and add to the map
       new mapboxgl.Marker(el)
         .setLngLat([parseFloat(barArr[i][0]), parseFloat(barArr[i][1])])
         .setPopup(new mapboxgl.Popup().setText(`${barArr[i][2]}`))
         .addTo(STORE.map);
     }
   },
-  recenter: function(latLon) {
+  recenter: function (latLon) {
     STORE.map.easeTo({
       center: latLon
     })
   },
-  removeMarkers: function() {
+  removeMarkers: function () {
     $('.marker').remove();
   },
   stateCodes: {
     AK: "Alaska",
     AL: "Alabama",
     AR: "Arkansas",
-    AZ:	"Arizona",
-    CA:	"California",
-    CO:	"Colorado",
-    CT:	"Connecticut",
+    AZ: "Arizona",
+    CA: "California",
+    CO: "Colorado",
+    CT: "Connecticut",
     DC: "Washington DC",
-    DE:	"Delaware",
-    FL:	"Florida",
-    GA:	"Georgia",
-    GU:	"Guam",
-    HI:	"Hawaii",
-    IA:	"Iowa",
-    ID:	"Idaho",
-    IL:	"Illinois",
-    IN:	"Indiana",
-    KS:	"Kansas",
-    KY:	"Kentucky",
-    LA:	"Louisiana",
-    MA:	"Massachusetts",
-    MD:	"Maryland",
-    ME:	"Maine",
-    MI:	"Michigan",
-    MN:	"Minnesota",
-    MO:	"Missouri",
-    MS:	"Mississippi",
-    MT:	"Montana",
-    NC:	"North Carolina",
-    ND:	"North Dakota",
-    NE:	"Nebraska",
-    NH:	"New Hampshire",
-    NJ:	"New Jersey",
-    NM:	"New Mexico",
-    NV:	"Nevada",
-    NY:	"New York",
-    OH:	"Ohio",
-    OK:	"Oklahoma",
-    OR:	"Oregon",
-    PA:	"Pennsylvania",
-    PR:	"Puerto Rico",
-    RI:	"Rhode Island",
-    SC:	"South Carolina",
-    SD:	"South Dakota",
-    TN:	"Tennessee",
-    TX:	"Texas",
-    UT:	"Utah",
-    VA:	"Virginia",
-    VI:	"Virgin Islands",
-    VT:	"Vermont",
-    WA:	"Washington",
-    WI:	"Wisconsin",
-    WV:	"West Virginia",
-    WY:	"Wyoming"
+    DE: "Delaware",
+    FL: "Florida",
+    GA: "Georgia",
+    GU: "Guam",
+    HI: "Hawaii",
+    IA: "Iowa",
+    ID: "Idaho",
+    IL: "Illinois",
+    IN: "Indiana",
+    KS: "Kansas",
+    KY: "Kentucky",
+    LA: "Louisiana",
+    MA: "Massachusetts",
+    MD: "Maryland",
+    ME: "Maine",
+    MI: "Michigan",
+    MN: "Minnesota",
+    MO: "Missouri",
+    MS: "Mississippi",
+    MT: "Montana",
+    NC: "North Carolina",
+    ND: "North Dakota",
+    NE: "Nebraska",
+    NH: "New Hampshire",
+    NJ: "New Jersey",
+    NM: "New Mexico",
+    NV: "Nevada",
+    NY: "New York",
+    OH: "Ohio",
+    OK: "Oklahoma",
+    OR: "Oregon",
+    PA: "Pennsylvania",
+    PR: "Puerto Rico",
+    RI: "Rhode Island",
+    SC: "South Carolina",
+    SD: "South Dakota",
+    TN: "Tennessee",
+    TX: "Texas",
+    UT: "Utah",
+    VA: "Virginia",
+    VI: "Virgin Islands",
+    VT: "Vermont",
+    WA: "Washington",
+    WI: "Wisconsin",
+    WV: "West Virginia",
+    WY: "Wyoming"
   }
 }
 
@@ -107,7 +107,7 @@ const STORE = {
 
 // sortable jquery code
 $(".resultsList").sortable({
-  stop: function(event, ui) {
+  stop: function (event, ui) {
     orderNumber();
     fillBrewList();
     passToMap();
@@ -125,10 +125,10 @@ function orderNumber() {
 
 function fillBrewList() {
   STORE.brewList = [];
-  $(".resultsList li").each(function() {
+  $(".resultsList li").each(function () {
     let resultIndex = STORE.brewResults.findIndex(arrayItem => {
       return arrayItem.name === $(this).find(".barName").html();
-    }); 
+    });
     STORE.brewList.push(STORE.brewResults[resultIndex]);
   })
   console.log("Brew List is Full Up!")
@@ -151,13 +151,13 @@ function convertAbbrev(input) {
 function formatQuery(parameters) {
   //takes parameter keys and makes an array out of them
   const queryItems = Object.keys(parameters)
-  //loops through our array and creates a new array made up of strings (encoded for use in url) with the format "key=value"
+    //loops through our array and creates a new array made up of strings (encoded for use in url) with the format "key=value"
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
   //returns the array object as a single string with & in between each
-    return queryItems.join('&');
+  return queryItems.join('&');
 }
 
-function getBarsFromOB(cityQ, stateQ, limitQ=20) {
+function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
   const baseURL = 'https://api.openbrewerydb.org/breweries';
   const params = {
     by_city: cityQ,
@@ -169,26 +169,26 @@ function getBarsFromOB(cityQ, stateQ, limitQ=20) {
   const url = baseURL + '?' + queryString;
 
   fetch(url)
-  .then(response => {
-    if (response.ok) {
-      STORE.state = "RESULTS";
-      return response.json();
-    }
-    throw new Error(response.statusText)
-  })
-  .then(responseJson => { 
-    let geocodedResults = filterResultsWithoutLatLon(responseJson);
-    STORE.brewResults = geocodedResults;
-    let missingResults = false;
-    if(geocodedResults.length !== responseJson.length) {
-      missingResults = true;
-    }
-    determineView(STORE.state, STORE.brewResults, missingResults);
-  })
-  .catch(err => {
-    STORE.state = "BAD RESULTS";
-    determineView(STORE.state, err)
-  })
+    .then(response => {
+      if (response.ok) {
+        STORE.state = "RESULTS";
+        return response.json();
+      }
+      throw new Error(response.statusText)
+    })
+    .then(responseJson => {
+      let geocodedResults = filterResultsWithoutLatLon(responseJson);
+      STORE.brewResults = geocodedResults;
+      let missingResults = false;
+      if (geocodedResults.length !== responseJson.length) {
+        missingResults = true;
+      }
+      determineView(STORE.state, STORE.brewResults, missingResults);
+    })
+    .catch(err => {
+      STORE.state = "BAD RESULTS";
+      determineView(STORE.state, err)
+    })
 }
 
 function filterResultsWithoutLatLon(res) {
@@ -197,7 +197,7 @@ function filterResultsWithoutLatLon(res) {
 
 /////// EVENT LISTENERS ///////
 function watchForm() {
-  $('.searchForm').on('submit', function(e){
+  $('.searchForm').on('submit', function (e) {
     e.preventDefault();
     $(".listSubmit").show();
     let cityInput = $(this).find('input[name="mainSearch"]').val();
@@ -212,7 +212,7 @@ function watchForm() {
 function addDirections() {
   $('#addDirections').on('click', e => {
     e.preventDefault();
-    if(STORE.nav !== true) {
+    if (STORE.nav !== true) {
       STORE.addNav();
       STORE.nav = true;
     }
@@ -222,7 +222,7 @@ function addDirections() {
 function removeDirections() {
   $('#removeDirections').on('click', e => {
     e.preventDefault();
-    if(STORE.nav !== false) {
+    if (STORE.nav !== false) {
       STORE.removeNav();
       STORE.nav = false;
     }
@@ -230,14 +230,14 @@ function removeDirections() {
 }
 
 function slideOutADVSearch() {
-  $('.searchForm').on('click', '#advSearchToggle', function(e) {
+  $('.searchForm').on('click', '#advSearchToggle', function (e) {
     e.preventDefault();
     $('.advSearchOptions').slideToggle('slow');
   });
 }
 
 //sends brewlist to the map
-function passToMap () {
+function passToMap() {
   let startBar = [STORE.brewList[0].longitude, STORE.brewList[0].latitude];
   let otherBars = [];
   STORE.brewList.forEach(bar => {
@@ -249,7 +249,7 @@ function passToMap () {
 
 //watch the list of breweries form
 function watchUserList() {
-  $('.resultsForm').on('submit', function(event) {
+  $('.resultsForm').on('submit', function (event) {
     event.preventDefault();
     fillBrewList();
 
@@ -265,7 +265,7 @@ function clearMarkers() {
 
 //button to remove a result
 function removeBar() {
-  $(".barCardItem").on("click", ".removeButton", function(event) {
+  $(".barCardItem").on("click", ".removeButton", function (event) {
     event.preventDefault();
     $(this).parent().remove();
     orderNumber();
@@ -286,14 +286,14 @@ function determineView(state, res, missingResults) {
 }
 
 //generate the results html for happy result
-function buildResultsView(res, missingResults=false) {
+function buildResultsView(res, missingResults = false) {
   const bars = res;
   $('.resultsList').html('');
   $('.map').html('');
   let resultView = [];
-  for(let i = 0; i < bars.length; i++) {
+  for (let i = 0; i < bars.length; i++) {
     resultView.push(`
-      <li class="barCardItem" id=List${i+1}>
+      <li class="barCardItem" id=List${i + 1}>
       <div class="orderNumber">${i + 1}
       </div>
       <div class="barContainer">
@@ -308,7 +308,7 @@ function buildResultsView(res, missingResults=false) {
       `);
   }
   resultView.join('');
-  if(missingResults) {
+  if (missingResults) {
     // TODO - fade this out after timeout
     $('.resultsList').html(`<div class="alert">
       Some results were removed do to missing location information.
@@ -340,7 +340,7 @@ function buildBadResults(res) {
 }
 
 /////// PAGE READY LISTENER ///////
-$(function() {
+$(function () {
   watchForm();
   slideOutADVSearch();
   watchUserList();
