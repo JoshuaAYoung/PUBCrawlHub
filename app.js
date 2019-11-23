@@ -339,6 +339,9 @@ function buildResultsView(missingResults = false) {
     // TODO - fade this out after timeout
     $('.resultsList').html(`<div class="alert"><span class="warning">Warning:</span> Some results were removed due to missing location information from the OpenBrewery database.</div>
     ${resultView.join('')}`);
+    setTimeout(function() {
+      $('.alert').fadeOut();
+    }, 4000);
   }
   else {
     $('.resultsList').html(resultView.join(''));
