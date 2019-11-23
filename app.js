@@ -3,6 +3,9 @@
 const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
 mapboxgl.accessToken = MAPBOX_API_KEY;
 
+// MAPBOX URL
+const MAPBOX_URL = 'https://api.mapbox.com/';
+
 // STORE
 const STORE = {
   state: 'MAIN',
@@ -103,7 +106,7 @@ const STORE = {
   }
 }
 
-/////// RANDOM ///////
+/////// HELPER FUNCTIONS ///////
 
 function generateCopyright() {
   let d = new Date();
@@ -138,9 +141,6 @@ function fillBrewList() {
     STORE.brewList.push(STORE.brewResults[resultIndex]);
   })
 }
-
-// mapbox url
-const MAPBOX_URL = 'https://api.mapbox.com/';
 
 // open brewery
 function convertAbbrev(input) {
@@ -199,6 +199,8 @@ function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
       throw new Error(response.statusText)
     })
     .then(responseJson => {
+      // Because open brewery DB doesn't have geo data for all bars
+      // This filters results without
       let geocodedResults = filterResultsWithoutLatLon(responseJson);
       STORE.brewResults = geocodedResults;
       let missingResults = false;
@@ -246,16 +248,6 @@ function toggleDirections() {
     }
   })
 }
-
-// function removeDirections() {
-//   $('#removeDirections').on('click', e => {
-//     e.preventDefault();
-//     if (STORE.nav !== false) {
-//       STORE.removeNav();
-//       STORE.nav = false;
-//     }
-//   });
-// }
 
 function slideOutADVSearch() {
   $('.searchForm').on('click', '#advSearchToggle', function (e) {
@@ -340,7 +332,6 @@ function buildResultsView(missingResults = false) {
       </li>`);
   }
   if (missingResults) {
-    // TODO - fade this out after timeout
     $('.resultsList').html(`<div class="alert"><span class="warning">Warning:</span> Some results were removed due to missing location information from the OpenBrewery database.</div>
     ${resultView.join('')}`);
     setTimeout(function() {
