@@ -237,6 +237,7 @@ function watchForm() {
     $(".mapHeader").show();
     $(".resultsHeader").show();
     $(".results").show();
+    $(".resultsBreak").show();
   })
 }
 
