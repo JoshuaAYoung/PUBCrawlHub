@@ -107,7 +107,6 @@ const STORE = {
 }
 
 /////// HELPER FUNCTIONS ///////
-
 function generateCopyright() {
   let d = new Date();
   let year = d.getFullYear();

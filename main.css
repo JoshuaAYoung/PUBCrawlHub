@@ -165,7 +165,7 @@ hr {
   padding: 5px;
   border-radius: 5px;
   text-align: center;
-  margin: 20px auto;
+  margin: 20px 17px;
   font-size: 14px;
 }
 
@@ -333,31 +333,56 @@ hr {
 #scrollMap a:visited {
   color: white;
 }
-@media only screen and (min-device-width : 420px) {
+
+.mapSpecific {
+  width: initial;
+}
+
+@media only screen and (min-width: 420px) {
   .searchBar {
-    width: 40%;
+    width: 80%;
   }
 }
 
-@media only screen and (min-device-width : 550px) {
+@media only screen and (min-width: 550px) {
+  .searchBar {
+    width: 430px;
+  }
+
   .container {
     display: flex;
     flex-direction: row;
   }
+
   #scrollMap {
     display: none !important;
   }
+
   .results {
     order: 1;
-    width: 49%;
   }
+
   .mapData {
     order: 2;
-    width: 49%;
+    width: 675px;
     padding: 5px;
     margin: 0 auto;
   }
+
   .mapBreak {
     display: none;
+  }
+
+  .barCardItem, .alert {
+    margin: 23px 0px 0 17px;
+}
+
+@media only screen and (min-width: 1200px) {
+  .mapData {
+    width: 49%;
+  }
+
+  .results {
+    width: 49%;
   }
 }
