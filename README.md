@@ -13,6 +13,10 @@ A free app to find bars and breweries and map out your pub crawl. [Link to the l
 
 [jQuery](https://jquery.com/)
 
+[Sortable jQuery](https://jqueryui.com/sortable/)
+
+[jQuery UI Touch Punch](http://touchpunch.furf.com/)
+
 HTML 5, CSS 3, Javascript
 
 ## Authors
