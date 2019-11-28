@@ -130,6 +130,7 @@ function orderNumber() {
   })
 }
 
+//after user rearranges the list or removes an item, repopulate the brewList object
 function fillBrewList() {
   STORE.brewList = [];
   $(".resultsList li").each(function () {
@@ -151,33 +152,36 @@ function convertAbbrev(input) {
   }
 }
 
+//map arrow button display
 function buttonScroll() {
   let mybutton = document.getElementById("scrollMap");
-  window.onscroll = function() {scrollFunction()};
+  window.onscroll = function () { scrollFunction() };
   function scrollFunction() {
-      if (document.body.scrollTop > ($(document).height() - 1200) || document.documentElement.scrollTop > ($(document).height() - 1200)) {
-          mybutton.style.display = "none";
-      } else {
-          mybutton.style.display = "block";
-      }
+    if (document.body.scrollTop > ($(document).height() - 1200) || document.documentElement.scrollTop > ($(document).height() - 1200)) {
+      mybutton.style.display = "none";
+    } else {
+      mybutton.style.display = "block";
+    }
   }
 }
 
+//map arrow button functionality
 function topFunction() {
   document.body.scrollTop = $(window).height();
   document.documentElement.scrollTop = $(window).height();
 }
+
+
 /////// DATA HANDLERS ///////
 
+//formats our query string
 function formatQuery(parameters) {
-  //takes parameter keys and makes an array out of them
   const queryItems = Object.keys(parameters)
-    //loops through our array and creates a new array made up of strings (encoded for use in url) with the format "key=value"
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
-  //returns the array object as a single string with & in between each
   return queryItems.join('&');
 }
 
+//api call function to openbrewery 
 function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
   const baseURL = 'https://api.openbrewerydb.org/breweries';
   const params = {
@@ -200,7 +204,7 @@ function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
     .then(responseJson => {
       // Because open brewery DB doesn't have geo data for all bars
       // This filters results without
-      if(responseJson.length === 0) {
+      if (responseJson.length === 0) {
         STORE.state = "NO RESULTS";
         determineView(STORE.state)
       } else {
@@ -219,11 +223,14 @@ function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
     })
 }
 
+//some results come back without latitude and logitude which mapbox need - filter these items out
 function filterResultsWithoutLatLon(res) {
   return res.filter(bar => bar.longitude !== null || bar.latitude !== null);
 }
 
 /////// EVENT LISTENERS ///////
+
+//watches the initial form
 function watchForm() {
   $('.searchForm').on('submit', function (e) {
     e.preventDefault();
@@ -240,6 +247,7 @@ function watchForm() {
   })
 }
 
+//toggles directions on and off in mapbox
 function toggleDirections() {
   $('#toggleDirections').on('click', e => {
     e.preventDefault();
@@ -254,6 +262,7 @@ function toggleDirections() {
   })
 }
 
+//shows the "search options" inputs
 function slideOutADVSearch() {
   $('.searchForm').on('click', '#advSearchToggle', function (e) {
     e.preventDefault();
@@ -335,7 +344,7 @@ function buildResultsView(missingResults = false) {
   if (missingResults) {
     $('.resultsList').html(`<div class="alert"><span class="warning">Note:</span> Some results were removed due to missing location information from the OpenBrewery database.</div>
     ${resultView.join('')}`);
-    setTimeout(function() {
+    setTimeout(function () {
       $('.alert').fadeOut();
     }, 4000);
   }
@@ -361,9 +370,9 @@ function buildNoResults() {
   $('.resultsList').html(`<div class="alert">
     <span class="warning">Sorry:</span> Your search didn't find any results. Please try again.
   </div>`);
-    setTimeout(function() {
-      $('.alert').fadeOut();
-    }, 5000);
+  setTimeout(function () {
+    $('.alert').fadeOut();
+  }, 5000);
 }
 //generate html for unhappy result
 function buildBadResults(res) {
