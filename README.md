@@ -1,5 +1,5 @@
 # PUBcrawlHUB
-A free app to find bars and breweries and map out your pub crawl.
+A free app to find bars and breweries and map out your pub crawl. [Link to the live version](http://joshyoung.net/pubcrawlhub/)
 
 ### Features to come
 
