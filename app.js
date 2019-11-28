@@ -1,53 +1,24 @@
-'use strict';
+"use strict";
 // KEYS
-const MAPBOX_API_KEY = 'pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw';
+const MAPBOX_API_KEY = "pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw";
 mapboxgl.accessToken = MAPBOX_API_KEY;
-
-// MAPBOX URL
-const MAPBOX_URL = 'https://api.mapbox.com/';
 
 // STORE
 const STORE = {
-  state: 'MAIN',
+  state: "MAIN",
   brewResults: [],
   brewList: [],
+  nav: null,
   map: new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
+    container: "map",
+    style: "mapbox://styles/mapbox/streets-v11",
     center: [-104.991531, 39.742043],
     zoom: 11,
   }),
   directions: new MapboxDirections({
     accessToken: mapboxgl.accessToken,
-    profile: 'mapbox/walking',
+    profile: "mapbox/walking",
   }),
-  addNav: function () {
-    STORE.map.addControl(this.directions);
-  },
-  removeNav: function () {
-    STORE.map.removeControl(this.directions);
-  },
-  nav: null,
-  addMarker: function (barArr) {
-    for (let i = 0; i < barArr.length; i++) {
-      // create a HTML element for each feature
-      let el = document.createElement('div');
-      el.className = 'marker';
-      // make a marker for each bar and add to the map
-      new mapboxgl.Marker(el)
-        .setLngLat([parseFloat(barArr[i][0]), parseFloat(barArr[i][1])])
-        .setPopup(new mapboxgl.Popup().setText(`${barArr[i][2]}`))
-        .addTo(STORE.map);
-    }
-  },
-  recenter: function (latLon) {
-    STORE.map.easeTo({
-      center: latLon
-    })
-  },
-  removeMarkers: function () {
-    $('.marker').remove();
-  },
   stateCodes: {
     AK: "Alaska",
     AL: "Alabama",
@@ -106,6 +77,43 @@ const STORE = {
   }
 }
 
+
+
+/////// MAPBOX ///////
+
+function recenter(latLon) {
+  STORE.map.easeTo({
+    center: latLon
+  })
+}
+
+function removeMarkers() {
+  $(".marker").remove();
+}
+
+function addMarker(barArr) {
+  for (let i = 0; i < barArr.length; i++) {
+    // create a HTML element for each feature
+    let el = document.createElement("div");
+    el.className = "marker";
+    // make a marker for each bar and add to the map
+    new mapboxgl.Marker(el)
+      .setLngLat([parseFloat(barArr[i][0]), parseFloat(barArr[i][1])])
+      .setPopup(new mapboxgl.Popup().setText(`${barArr[i][2]}`))
+      .addTo(STORE.map);
+  }
+}
+
+function addNav() {
+  STORE.map.addControl(STORE.directions);
+}
+
+function removeNav() {
+  STORE.map.removeControl(STORE.directions);
+}
+
+
+
 /////// HELPER FUNCTIONS ///////
 function generateCopyright() {
   let d = new Date();
@@ -137,7 +145,6 @@ function fillBrewList() {
     let resultIndex = STORE.brewResults.findIndex(arrayItem => {
       return arrayItem.name === $.parseHTML($(this).find(".barName").html())[0].textContent;
     });
-    console.log(decodeURI($(this).find(".barName").innerHTML));
     STORE.brewList.push(STORE.brewResults[resultIndex]);
   })
 }
@@ -172,18 +179,20 @@ function topFunction() {
 }
 
 
+
+
 /////// DATA HANDLERS ///////
 
 //formats our query string
 function formatQuery(parameters) {
   const queryItems = Object.keys(parameters)
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(parameters[key])}`)
-  return queryItems.join('&');
+  return queryItems.join("&");
 }
 
 //api call function to openbrewery 
 function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
-  const baseURL = 'https://api.openbrewerydb.org/breweries';
+  const baseURL = "https://api.openbrewerydb.org/breweries";
   const params = {
     by_city: cityQ,
     by_state: stateQ,
@@ -191,7 +200,7 @@ function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
     sort: "city"
   };
   const queryString = formatQuery(params)
-  const url = baseURL + '?' + queryString;
+  const url = baseURL + "?" + queryString;
 
   fetch(url)
     .then(response => {
@@ -223,21 +232,36 @@ function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
     })
 }
 
-//some results come back without latitude and logitude which mapbox need - filter these items out
+//some results come back without latitude and longitude which mapbox needs - filters these items out
 function filterResultsWithoutLatLon(res) {
   return res.filter(bar => bar.longitude !== null || bar.latitude !== null);
 }
+
+//sends brewlist to the map
+function passToMap() {
+  let startBar = [STORE.brewList[0].longitude, STORE.brewList[0].latitude];
+  let otherBars = [];
+  STORE.brewList.forEach(bar => {
+    otherBars.push([bar.longitude, bar.latitude, bar.name]);
+  });
+  removeMarkers();
+  recenter(startBar);
+  addMarker(otherBars);
+}
+
+
+
 
 /////// EVENT LISTENERS ///////
 
 //watches the initial form
 function watchForm() {
-  $('.searchForm').on('submit', function (e) {
+  $(".searchForm").on("submit", function (e) {
     e.preventDefault();
     $(".listSubmit").show();
-    let cityInput = $(this).find('input[name="mainSearch"]').val();
-    let stateInput = convertAbbrev($(this).find('input[name="stateSearch"]').val());
-    let limitInput = $(this).find('input[name="resultsNumber"]').val();
+    let cityInput = $(this).find("input[name='mainSearch']").val();
+    let stateInput = convertAbbrev($(this).find("input[name='stateSearch']").val());
+    let limitInput = $(this).find("input[name='resultsNumber']").val();
     getBarsFromOB(cityInput, stateInput, limitInput);
     buttonScroll();
     $(".mapHeader").show();
@@ -249,14 +273,14 @@ function watchForm() {
 
 //toggles directions on and off in mapbox
 function toggleDirections() {
-  $('#toggleDirections').on('click', e => {
-    e.preventDefault();
+  $("#toggleDirections").on("click", event => {
+    event.preventDefault();
     if (STORE.nav !== true) {
-      STORE.addNav();
+      addNav();
       STORE.nav = true;
     }
     else {
-      STORE.removeNav();
+      removeNav();
       STORE.nav = false;
     }
   })
@@ -264,27 +288,15 @@ function toggleDirections() {
 
 //shows the "search options" inputs
 function slideOutADVSearch() {
-  $('.searchForm').on('click', '#advSearchToggle', function (e) {
+  $(".searchForm").on("click", "#advSearchToggle", function (e) {
     e.preventDefault();
-    $('.advSearchOptions').slideToggle('slow');
+    $(".advSearchOptions").slideToggle("slow");
   });
-}
-
-//sends brewlist to the map
-function passToMap() {
-  let startBar = [STORE.brewList[0].longitude, STORE.brewList[0].latitude];
-  let otherBars = [];
-  STORE.brewList.forEach(bar => {
-    otherBars.push([bar.longitude, bar.latitude, bar.name]);
-  });
-  STORE.removeMarkers();
-  STORE.recenter(startBar);
-  STORE.addMarker(otherBars);
 }
 
 //watch the list of breweries form
 function watchUserList() {
-  $('.resultsForm').on('submit', function (event) {
+  $(".resultsForm").on("submit", function (event) {
     event.preventDefault();
     fillBrewList();
   })
@@ -301,19 +313,10 @@ function removeBar() {
   })
 };
 
-/////// VIEW HANDLERS ///////
-function determineView(state, res, missingResults) {
-  if (state === 'MAIN') {
-    return buildMainView();
-  } else if (state === 'RESULTS') {
-    return buildResultsView(missingResults);
-  } else if (state === 'NO RESULTS') {
-    return buildNoResults();
-  } else if (state === 'BAD RESULT') {
-    return buildBadResults(res);
-  }
-}
 
+/////// HTML GENERATORS ///////
+
+//generate html for the map header
 function mapText() {
   return `<hr class="sectionBreak"></hr>
     <h2 class="headerText">Map</h2>
@@ -321,11 +324,10 @@ function mapText() {
 }
 
 //generate the results html for happy result
-function buildResultsView(missingResults = false) {
+function buildResults(resultView) {
   const bars = STORE.brewResults;
-  $('.resultsList').html('');
-  $('.map').html('');
-  let resultView = [];
+  $(".resultsList").html("");
+  $(".map").html("");
   for (let i = 0; i < bars.length; i++) {
     resultView.push(`
       <li class="barCardItem" id=List${i + 1}>
@@ -340,48 +342,78 @@ function buildResultsView(missingResults = false) {
       <p class="barPhone barInfo">${bars[i].phone}</p>
       <button type="button" id="removeButton" class="removeButton">&times</button>
       </li>`);
-  }
-  if (missingResults) {
-    $('.resultsList').html(`<div class="alert"><span class="warning">Note:</span> Some results were removed due to missing location information from the OpenBrewery database.</div>
-    ${resultView.join('')}`);
+  };
+}
+
+//generates html for the case when the inputs did not return any results
+function buildNoResults() {
+  $(".resultsList").html();
+  removeMarkers();
+  $(".resultsList").html(`<div class="alert">
+    <span class="warning">Sorry:</span> Your search didn't return any results. Please try again.
+  </div>`);
+  setTimeout(function () {
+    $(".alert").fadeOut();
+  }, 5000);
+}
+
+//generate html for unhappy result
+function buildBadResults(res) {
+  $(".resultsList").html("");
+  $(".map").html("");
+  let view = `<h2>We've experienced an error</h2>
+  <p>${res.message}</p>`;
+  $(".resultList").html(view);
+}
+
+//checks for missing longitude and latitude and pushes the results with an error if any are parsed out 
+function checkMissing(results, view) {
+  if (results) {
+    $(".resultsList").html(`<div class="alert"><span class="warning">Note:</span> Some results were removed due to missing location information from the OpenBrewery database.</div>
+  ${view.join("")}`);
     setTimeout(function () {
-      $('.alert').fadeOut();
+      $(".alert").fadeOut();
     }, 4000);
   }
   else {
-    $('.resultsList').html(resultView.join(''));
+    $(".resultsList").html(view.join(""));
   }
+}
+
+
+/////// VIEW HANDLERS ///////
+
+//determines which state the page is in and pushes the resulting view
+function determineView(state, res, missingResults) {
+  if (state === "MAIN") {
+    return buildMainView();
+  } else if (state === "RESULTS") {
+    return buildResultsView(missingResults);
+  } else if (state === "NO RESULTS") {
+    return buildNoResults();
+  } else if (state === "BAD RESULT") {
+    return buildBadResults(res);
+  }
+}
+
+//builds the results and pushes them to both the map and the results list
+function buildResultsView(missingResults = false) {
+  let resultView = [];
+  buildResults(resultView);
+  checkMissing(missingResults, resultView);
   removeBar();
   let mapCenter = [STORE.brewResults[0].longitude, STORE.brewResults[0].latitude];
   STORE.map;
-  STORE.addNav();
+  addNav();
   STORE.nav = true;
-  STORE.recenter(mapCenter);
+  recenter(mapCenter);
   let initialBars = [];
   STORE.brewResults.forEach(bar => {
     initialBars.push([bar.longitude, bar.latitude, bar.name]);
   });
-  STORE.addMarker(initialBars);
+  addMarker(initialBars);
 }
 
-function buildNoResults() {
-  $('.resultsList').html();
-  STORE.removeMarkers();
-  $('.resultsList').html(`<div class="alert">
-    <span class="warning">Sorry:</span> Your search didn't find any results. Please try again.
-  </div>`);
-  setTimeout(function () {
-    $('.alert').fadeOut();
-  }, 5000);
-}
-//generate html for unhappy result
-function buildBadResults(res) {
-  $('.resultsList').html('');
-  $('.map').html('');
-  let view = `<h2>We've experienced an error</h2>
-  <p>${res.message}</p>`;
-  $('.resultList').html(view);
-}
 
 /////// PAGE READY LISTENER ///////
 $(function () {

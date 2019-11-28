@@ -242,6 +242,8 @@ hr {
   top: 2px;
   right: 3px;
   line-height: .9em;
+  cursor: pointer;
+  outline: none;
 }
 
 #map {
