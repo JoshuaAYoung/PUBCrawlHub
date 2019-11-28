@@ -5,6 +5,8 @@ A free app to find bars and breweries and map out your pub crawl. [Link to the l
 
 - Countdown timer, to sync up with your friends and know when to move on
 - Share-able routes/breweries list
+- Find the user's current location and add as a marker to the map
+- Get directions between multiple bars
 
 ## Built With
 [Open Brewery DB](https://www.openbrewerydb.org/)
