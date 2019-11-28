@@ -1,5 +1,9 @@
 # PUBcrawlHUB
+<<<<<<< HEAD
 A free app to find bars and breweries and map out your pub crawl. [Link to the live version](http://michaelhploughman.com/PUBCrawlHub/).
+=======
+A free app to find bars and breweries and map out your pub crawl. [Link to the live version](http://joshyoung.net/pubcrawlhub/)
+>>>>>>> 5266b5c2532733771110d5dba0c3a351699dd8a5
 
 ### Features to come
 
@@ -12,6 +16,10 @@ A free app to find bars and breweries and map out your pub crawl. [Link to the l
 [Mapbox and Mapbox GL JS](https://www.mapbox.com/)
 
 [jQuery](https://jquery.com/)
+
+[Sortable jQuery](https://jqueryui.com/sortable/)
+
+[jQuery UI Touch Punch](http://touchpunch.furf.com/)
 
 HTML 5, CSS 3, Javascript
 
