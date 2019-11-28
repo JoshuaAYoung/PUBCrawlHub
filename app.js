@@ -305,7 +305,7 @@ function watchUserList() {
 //button to remove a result
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function (event) {
-    event.preventDefault();
+    event.stopPropagation();
     $(this).parent().parent().remove();
     orderNumber();
     fillBrewList();

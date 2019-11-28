@@ -337,6 +337,7 @@ hr {
 
 #scrollMap a {
   text-decoration: none;
+  color: white;
 }
 
 #scrollMap a:visited {
