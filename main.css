@@ -349,8 +349,8 @@ hr {
 }
 
 .beingDragged {
-  background-color: rgb(87, 87, 87);
-  width: 1.2em;
+  background-color: rgb(221, 221, 221);
+  padding: 20px;
 }
 
 @media only screen and (min-width: 420px) {
