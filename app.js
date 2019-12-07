@@ -1,4 +1,3 @@
-"use strict";
 // KEYS
 const MAPBOX_API_KEY = "pk.eyJ1IjoibWljaGFlbGhwIiwiYSI6ImNrMzF1NjkyODBkMGwzbXBwOWJrcXQxOWwifQ.5VGC7vYD6ckQ2v-MVsIHLw";
 mapboxgl.accessToken = MAPBOX_API_KEY;
@@ -138,7 +137,7 @@ function orderNumber() {
   })
 }
 
-//after user rearranges the list or removes an item, repopulate the brewList object
+//after user rearranges the list or removes an item, (re)populate the brewList object
 function fillBrewList() {
   STORE.brewList = [];
   $(".resultsList li").each(function () {
@@ -177,7 +176,6 @@ function topFunction() {
   document.body.scrollTop = $(window).height();
   document.documentElement.scrollTop = $(window).height();
 }
-
 
 
 
@@ -268,6 +266,7 @@ function watchForm() {
     $(".resultsHeader").show();
     $(".results").show();
     $(".resultsBreak").show();
+    passToMap();
   })
 }
 
@@ -294,22 +293,20 @@ function slideOutADVSearch() {
   });
 }
 
-//watch the list of breweries form
-function watchUserList() {
-  $(".resultsForm").on("submit", function (event) {
-    event.preventDefault();
-    fillBrewList();
-  })
-}
-
 //button to remove a result
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function (event) {
-    event.stopPropagation();
-    $(this).parent().parent().remove();
-    orderNumber();
     fillBrewList();
-    passToMap();
+    if(STORE.brewList.length > 1) {
+      event.preventDefault;
+      $(this).parent().parent().remove();
+      orderNumber();
+      fillBrewList();
+      passToMap();
+    }
+    else {
+    event.stopPropagation();
+    }
   })
 };
 
@@ -419,7 +416,6 @@ function buildResultsView(missingResults = false) {
 $(function () {
   watchForm();
   slideOutADVSearch();
-  watchUserList();
   toggleDirections();
   generateCopyright();
 })
