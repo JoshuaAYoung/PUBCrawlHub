@@ -348,6 +348,11 @@ hr {
   width: initial;
 }
 
+.beingDragged {
+  background-color: rgb(87, 87, 87);
+  width: 1.2em;
+}
+
 @media only screen and (min-width: 420px) {
   .searchBar {
     width: 80%;

@@ -123,7 +123,11 @@ function generateCopyright() {
 // sortable jquery code
 $(".resultsList").sortable({
   cancel: ".alert",
+  start: function(event, ui) { 
+    $(ui.item).addClass("beingDragged");
+  },
   stop: function (event, ui) {
+    $(ui.item).removeClass("beingDragged");
     orderNumber();
     fillBrewList();
     passToMap();
