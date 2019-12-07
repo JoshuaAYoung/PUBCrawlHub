@@ -122,6 +122,7 @@ function generateCopyright() {
 
 // sortable jquery code
 $(".resultsList").sortable({
+  cancel: ".alert",
   stop: function (event, ui) {
     orderNumber();
     fillBrewList();
@@ -266,7 +267,6 @@ function watchForm() {
     $(".resultsHeader").show();
     $(".results").show();
     $(".resultsBreak").show();
-    passToMap();
   })
 }
 
@@ -305,7 +305,7 @@ function removeBar() {
       passToMap();
     }
     else {
-    event.stopPropagation();
+    event.preventDefault();
     }
   })
 };
