@@ -22,7 +22,7 @@ A free app to find bars and breweries and map out your pub crawl. [Link to the l
 HTML 5, CSS 3, Javascript
 
 ## Authors
-* **Josh Young** - *API Implimentation* [Josh's Portfolio](https://joshuaayoung.github.io/portfolio)
+* **Josh Young** - *API Implimentation* [Josh's Portfolio](https://joshyoung.net)
 
 
 * **Michael Ploughman** - *Mapping Functionality* [michaelhploughman.com](https://michaelhploughman.com)
