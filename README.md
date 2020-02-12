@@ -6,7 +6,7 @@ A free app to find bars and breweries and map out your pub crawl. [Link to the l
 - The CSS was scratch built - no bootstrap here
 - The functionality of the Mapbox plugin was somewhat limiting. Eventually, the Mapbox plugin will be replaced with Google Maps. 
  Some creative JavaScript was crafted in order to work around some missing features. For example:
-    - The map did required longitude and latitude in order to add pins to the map. The OpenBrewery API, unfortunately, does not have latitude and longitude data for ALL bars. These were strategically sorted out.
+    - The map required longitude and latitude in order to add pins to the map. The OpenBrewery API, unfortunately, does not have latitude and longitude data for ALL bars. These were strategically sorted out.
     - The Mapbox API does not automatically center on any of the results. This latitude and longitude had to be calculated and fed to the plugin in order to show all results on the page.
     - Unfortunately, the plugin would not automatically get directions without a click event inside of the map plugin. There was nothing to do here other than to instruct the user on how to start their route. 
     
