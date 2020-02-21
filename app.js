@@ -77,6 +77,9 @@ const STORE = {
 }
 
 
+/////// ROME ///////
+rome(dateTime);
+
 
 /////// MAPBOX ///////
 
@@ -123,7 +126,7 @@ function generateCopyright() {
 // sortable jquery code
 $(".resultsList").sortable({
   cancel: ".alert",
-  start: function(event, ui) { 
+  start: function (event, ui) {
     $(ui.item).addClass("beingDragged");
   },
   stop: function (event, ui) {
@@ -301,7 +304,7 @@ function slideOutADVSearch() {
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function (event) {
     fillBrewList();
-    if(STORE.brewList.length > 1) {
+    if (STORE.brewList.length > 1) {
       event.preventDefault;
       $(this).parent().parent().remove();
       orderNumber();
@@ -309,7 +312,7 @@ function removeBar() {
       passToMap();
     }
     else {
-    event.preventDefault();
+      event.preventDefault();
     }
   })
 };
