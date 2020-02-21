@@ -123,7 +123,7 @@ function generateCopyright() {
 // sortable jquery code
 $(".resultsList").sortable({
   cancel: ".alert",
-  start: function(event, ui) { 
+  start: function (event, ui) {
     $(ui.item).addClass("beingDragged");
   },
   stop: function (event, ui) {
@@ -215,12 +215,12 @@ function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
     })
     .then(responseJson => {
       // Because open brewery DB doesn't have geo data for all bars
-      // This filters results without
+      // This filters results that don't have lat and long
       if (responseJson.length === 0) {
         STORE.state = "NO RESULTS";
         determineView(STORE.state)
       } else {
-        let geocodedResults = filterResultsWithoutLatLon(responseJson);
+        let geocodedResults = filterLatLonResults(responseJson);
         STORE.brewResults = geocodedResults;
         let missingResults = false;
         if (geocodedResults.length !== responseJson.length) {
@@ -236,7 +236,7 @@ function getBarsFromOB(cityQ, stateQ, limitQ = 20) {
 }
 
 //some results come back without latitude and longitude which mapbox needs - filters these items out
-function filterResultsWithoutLatLon(res) {
+function filterLatLonResults(res) {
   return res.filter(bar => bar.longitude !== null || bar.latitude !== null);
 }
 
@@ -301,7 +301,7 @@ function slideOutADVSearch() {
 function removeBar() {
   $(".barCardItem").on("click", ".removeButton", function (event) {
     fillBrewList();
-    if(STORE.brewList.length > 1) {
+    if (STORE.brewList.length > 1) {
       event.preventDefault;
       $(this).parent().parent().remove();
       orderNumber();
@@ -309,7 +309,7 @@ function removeBar() {
       passToMap();
     }
     else {
-    event.preventDefault();
+      event.preventDefault();
     }
   })
 };

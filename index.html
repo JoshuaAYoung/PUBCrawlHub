@@ -12,7 +12,8 @@
     <link rel="stylesheet"
         href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
         type="text/css" />
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,900|Roboto:300,400,700,900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,900|Roboto:300,400,700,900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="normalize.css">
     <link rel="stylesheet" href="./main.css">
@@ -36,17 +37,21 @@
                     </div>
                     <div class="advSearchOptions">
                         <div class="userInput">
-                            <input type="text" name="stateSearch" id="stateSearch" placeholder="State..." aria-label="Search by state" class="searchBar">
+                            <input type="text" name="stateSearch" id="stateSearch" placeholder="State..."
+                                aria-label="Search by state" class="searchBar">
                         </div>
                         <div class="userInput">
-                            <input type="number" id="resultsNumber" name="resultsNumber" aria-label="Number of results" placeholder="Number of results..." class="searchBar">
+                            <input type="number" id="resultsNumber" name="resultsNumber" aria-label="Number of results"
+                                placeholder="Number of results..." class="searchBar">
                         </div>
                     </div>
                     <div class="buttonContainer">
-                        <button class="mainButton" type="submit" id="submitButton" aria-label="Find breweries">Find Breweries</button>
-                    <div class="vertLine">
-                    </div>
-                        <button class="mainButton" name="advSearch" id="advSearchToggle" aria-label="search options toggle">Search Options</button>
+                        <button class="mainButton" type="submit" id="submitButton" aria-label="Find breweries">Find
+                            Breweries</button>
+                        <div class="vertLine">
+                        </div>
+                        <button class="mainButton" name="advSearch" id="advSearchToggle"
+                            aria-label="search options toggle">Search Options</button>
                     </div>
                 </fieldset>
             </form>
@@ -56,7 +61,8 @@
             <section class="results">
                 <div class="resultsHeader">
                     <h2 class="headerText">Results</h2>
-                    <p class="instructions">Drag breweries into the order you’d like to visit them, starting with your first
+                    <p class="instructions">Drag breweries into the order you’d like to visit them, starting with your
+                        first
                         destination.</p>
                 </div>
                 <form class="resultsForm" autocomplete="off">
@@ -73,20 +79,23 @@
                 <section class="mapHeader">
                     <hr class="sectionBreak mapBreak">
                     <h2 class="headerText">Map</h2>
-                    <p class="instructions">For directions, click anywhere on the map to set a starting point followed by
+                    <p class="instructions">For directions, click anywhere on the map to set a starting point followed
+                        by
                         your desired destination.</p>
                 </section>
                 <div id="map">
                 </div>
                 <button class="mapButton" id="toggleDirections">Toggle Directions</button>
-                <p class="poweredText">Powered by <span><a href="https://www.openbrewerydb.org/" class="boldAtr">Open Brewery DB</a></span> and
+                <p class="poweredText">Powered by <span><a href="https://www.openbrewerydb.org/" class="boldAtr">Open
+                            Brewery DB</a></span> and
                     <span><a href="https://www.mapbox.com/" class="boldAtr">Mapbox</a></span></p>
             </section>
         </div>
     </main>
     <footer>
         <p class="copyright"></p>
-        <p class="copyText"><a href="http://michaelhploughman.com" target="_blank" class="boldLink">Michael Ploughman</a> & <a href="https://joshyoung.net" target="_blank" class="boldLink">Josh Young</a></p>
+        <p class="copyText"><a href="http://michaelhploughman.com" target="_blank" class="boldLink">Michael
+                Ploughman</a> & <a href="https://joshyoung.net" target="_blank" class="boldLink">Josh Young</a></p>
     </footer>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
