@@ -174,23 +174,17 @@ function buttonScroll() {
   let mybutton = document.getElementById("scrollMap");
   window.onscroll = function () {
     scrollFunction();
-  };
-  function scrollFunction() {
-    if (
-      document.body.scrollTop > $(document).height() - 1200 ||
-      document.documentElement.scrollTop > $(document).height() - 1200
-    ) {
-      mybutton.style.display = "none";
-    } else {
-      mybutton.style.display = "block";
+    function scrollFunction() {
+      if (
+        document.body.scrollTop > $(document).height() - 1200 ||
+        document.documentElement.scrollTop > $(document).height() - 1200
+      ) {
+        mybutton.style.display = "none";
+      } else {
+        mybutton.style.display = "block";
+      }
     }
-  }
-}
-
-//map arrow button functionality
-function topFunction() {
-  document.body.scrollTop = $(window).height();
-  document.documentElement.scrollTop = $(window).height();
+  };
 }
 
 /////// DATA HANDLERS ///////
@@ -322,13 +316,6 @@ function removeBar() {
 }
 
 /////// HTML GENERATORS ///////
-
-//generate html for the map header
-function mapText() {
-  return `<hr class="sectionBreak"></hr>
-    <h2 class="headerText">Map</h2>
-    <p class="instructions">For directions, click anywhere on the map to set a starting point followed by your desired destination.</p>`;
-}
 
 //generate the results html for happy result
 function buildResults(resultView) {
