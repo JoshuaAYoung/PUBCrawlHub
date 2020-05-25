@@ -75,10 +75,11 @@ const STORE = {
     WY: "Wyoming"
   }
 }
-
-
-/////// ROME ///////
-rome(dateTime);
+console.log(moment().format("YYYY-MM-DD hh:mm:ss"))
+/////// ROME DATE TIME PLUGIN///////
+rome(dateTime, {
+  inputFormat: "YYYY-MM-DD hh:mm:ss"
+});
 
 
 /////// MAPBOX ///////
@@ -105,7 +106,7 @@ function addMarker(barArr) {
       .addTo(STORE.map);
   }
 }
-
+ 
 function addNav() {
   STORE.map.addControl(STORE.directions);
 }

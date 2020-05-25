@@ -1,116 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <title>PUBcrawlHUB</title>
-    <meta name="description"
-        content="A free app to find bars and breweries and map out your pub crawl. Send your route to your friends so they can join in. Set a timer so everyone knows where you are along your route.">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css" rel="stylesheet" />
-    <link rel="stylesheet"
-        href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
-        type="text/css" />
+    <meta
+      name="description"
+      content="A free app to find bars and breweries and map out your pub crawl. Send your route to your friends so they can join in. Set a timer so everyone knows where you are along your route."
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link
-        href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,900|Roboto:300,400,700,900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="normalize.css">
-    <link rel="stylesheet" href="./main.css">
-    <link rel="icon" type="image/png" href="./images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="./images/favicon-16x16.png" sizes="16x16" />
-</head>
+      href="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.css"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,900|Roboto:300,400,700,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" type="text/css" href="normalize.css" />
+    <link rel="stylesheet" href="./main.css" />
+    <link rel="stylesheet" href="./rome.css" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./images/favicon-32x32.png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="./images/favicon-16x16.png"
+      sizes="16x16"
+    />
+  </head>
 
-<body>
+  <body>
     <header>
-        <div class="logo">
-            <a href="index.html"><img src="./images/pchlogoandtitle.svg" alt="PUBCrawlHUB logo" class="mainLogo"></a>
-        </div>
+      <div class="logo">
+        <a href="index.html">
+          <img
+            src="./images/pchlogoandtitle.svg"
+            href="index.html"
+            alt="PUBCrawlHUB logo"
+            class="mainLogo"
+          />
+        </a>
+      </div>
     </header>
     <main>
-        <div class="formContainer">
-            <form class="searchForm" autocomplete="off">
-                <fieldset class="searchFieldset">
-                    <div class="userInput">
-                        <input type="text" id="mainSearch" name="mainSearch" aria-label="Search by city"
-                            placeholder="Enter a city to start finding breweries..." class="searchBar" required>
-                    </div>
-                    <div class="userInput">
-                        <input type="text" id="dateTime" name="dateTime" aria-label="Choose date and time"
-                            placeholder="Pick a starting date and time..." class="searchBar">
-                    </div>
-                    <div class="advSearchOptions">
-                        <div class="userInput">
-                            <input type="text" name="stateSearch" id="stateSearch" placeholder="State..."
-                                aria-label="Search by state" class="searchBar">
-                        </div>
-                        <div class="userInput">
-                            <input type="number" id="resultsNumber" name="resultsNumber" aria-label="Number of results"
-                                placeholder="Number of results..." class="searchBar">
-                        </div>
-                    </div>
-                    <div class="buttonContainer">
-                        <button class="mainButton" type="submit" id="submitButton" aria-label="Find breweries">Find
-                            Breweries</button>
-                        <div class="vertLine">
-                        </div>
-                        <button class="mainButton" name="advSearch" id="advSearchToggle"
-                            aria-label="search options toggle">Search Options</button>
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-        <hr class="sectionBreak resultsBreak">
-        <div class="container">
-            <section class="results">
-                <div class="resultsHeader">
-                    <h2 class="headerText">Results</h2>
-                    <p class="instructions">Drag breweries into the order you’d like to visit them, starting with your
-                        first
-                        destination.</p>
-                </div>
-                <form class="resultsForm" autocomplete="off">
-                    <fieldset class="resultsFieldset">
-                        <div class="alertContainer"></div>
-                        <ul class="resultsList">
-                        </ul>
-                    </fieldset>
-                </form>
-                <button id="scrollMap" title="Go to map"><a href="#map">MAP<p class="vee">v</p></a></button>
-            </section>
+      <div class="formContainer">
+        <form class="searchForm" autocomplete="off">
+          <fieldset class="searchFieldset">
+            <div class="userInput">
+              <input
+                type="text"
+                id="mainSearch"
+                name="mainSearch"
+                aria-label="Search by city"
+                placeholder="Enter a city to start finding breweries..."
+                class="searchBar"
+                required
+              />
+            </div>
+            <div class="userInput">
+              <input
+                id="dateTime"
+                name="dateTime"
+                aria-label="Choose date and time"
+                placeholder="Pick a starting date and time..."
+                class="searchBar"
+              />
+            </div>
+            <div class="advSearchOptions">
+              <div class="userInput">
+                <input
+                  type="text"
+                  name="stateSearch"
+                  id="stateSearch"
+                  placeholder="State..."
+                  aria-label="Search by state"
+                  class="searchBar"
+                />
+              </div>
+              <div class="userInput">
+                <input
+                  type="number"
+                  id="resultsNumber"
+                  name="resultsNumber"
+                  aria-label="Number of results"
+                  placeholder="Number of results..."
+                  class="searchBar"
+                />
+              </div>
+            </div>
+            <div class="buttonContainer">
+              <button
+                class="mainButton"
+                type="submit"
+                id="submitButton"
+                aria-label="Find breweries"
+              >
+                Find Breweries
+              </button>
+              <div class="vertLine"></div>
+              <button
+                class="mainButton"
+                name="advSearch"
+                id="advSearchToggle"
+                aria-label="search options toggle"
+              >
+                Search Options
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <hr class="sectionBreak resultsBreak" />
+      <div class="container">
+        <section class="results">
+          <div class="resultsHeader">
+            <h2 class="headerText">Results</h2>
+            <p class="instructions">
+              Drag breweries into the order you’d like to visit them, starting
+              with your first destination.
+            </p>
+          </div>
+          <form class="resultsForm" autocomplete="off">
+            <fieldset class="resultsFieldset">
+              <div class="alertContainer"></div>
+              <ul class="resultsList"></ul>
+            </fieldset>
+          </form>
+          <button id="scrollMap" title="Go to map">
+            <a href="#map"
+              >MAP
+              <p class="vee">v</p></a
+            >
+          </button>
+        </section>
 
-            <section class="mapData mapSpecific">
-                <section class="mapHeader">
-                    <hr class="sectionBreak mapBreak">
-                    <h2 class="headerText">Map</h2>
-                    <p class="instructions">For directions, click anywhere on the map to set a starting point followed
-                        by
-                        your desired destination.</p>
-                </section>
-                <div id="map">
-                </div>
-                <button class="mapButton" id="toggleDirections">Toggle Directions</button>
-                <p class="poweredText">Powered by <span><a href="https://www.openbrewerydb.org/" class="boldAtr">Open
-                            Brewery DB</a></span> and
-                    <span><a href="https://www.mapbox.com/" class="boldAtr">Mapbox</a></span></p>
-            </section>
-        </div>
+        <section class="mapData mapSpecific">
+          <section class="mapHeader">
+            <hr class="sectionBreak mapBreak" />
+            <h2 class="headerText">Map</h2>
+            <p class="instructions">
+              For directions, click anywhere on the map to set a starting point
+              followed by your desired destination.
+            </p>
+          </section>
+          <div id="map"></div>
+          <button class="mapButton" id="toggleDirections">
+            Toggle Directions
+          </button>
+          <p class="poweredText">
+            Powered by
+            <span
+              ><a href="https://www.openbrewerydb.org/" class="boldAtr"
+                >Open Brewery DB</a
+              ></span
+            >
+            and
+            <span
+              ><a href="https://www.mapbox.com/" class="boldAtr"
+                >Mapbox</a
+              ></span
+            >
+          </p>
+        </section>
+      </div>
     </main>
     <footer>
-        <p class="copyright"></p>
-        <p class="copyText"><a href="http://michaelhploughman.com" target="_blank" class="boldLink">Michael
-                Ploughman</a> & <a href="https://joshyoung.net" target="_blank" class="boldLink">Josh Young</a></p>
+      <p class="copyright"></p>
+      <p class="copyText">
+        <a href="http://michaelhploughman.com" target="_blank" class="boldLink"
+          >Michael Ploughman</a
+        >
+        &
+        <a href="https://joshyoung.net" target="_blank" class="boldLink"
+          >Josh Young</a
+        >
+      </p>
     </footer>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js"></script>
     <script
-        src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
+      src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v1.5.0/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.0.2/mapbox-gl-directions.js"></script>
     <script src="https://unpkg.com/@mapbox/mapbox-sdk/umd/mapbox-sdk.min.js"></script>
     <script src="jquery-ui.js"></script>
     <script src="jquery.ui.touch-punch.min.js"></script>
-    <script src='rome.min.js'></script>
-    <script src="./app.js"></script>
-</body>
-
+    <script src="moment.js"></script>
+    <script src="rome.standalone.min.js"></script>
+    <script src="app.js"></script>
+  </body>
 </html>
